@@ -1,0 +1,45 @@
+layout:
+  qmk_keyboard: cantor
+  layout_name: LAYOUT_split_3x6_3
+layers:
+  Base:
+    - [$$mdi:keyboard-esc$$, {t: "’", s: "`"}, B, H, G, {t: '"', s: "="}, {t: "#", s: "…"}, {t: ".", s: "!"}, {t: "/", s: "*"}, J, X, {t: ":", s: ";"}]
+    - [{t: "(", s: "<"}, {h: $$mdi:linux$$, t: C}, {h: $$mdi:apple-keyboard-option$$, t: S}, {h: $$mdi:apple-keyboard-shift$$, t: N}, {h: $$mdi:apple-keyboard-control$$, t: D}, K, {t: ",", s: "?"}, {h: $$mdi:apple-keyboard-control$$, t: A}, {h: $$mdi:apple-keyboard-shift$$, t: E}, {h: $$mdi:apple-keyboard-option$$, t: I}, {h: $$mdi:linux$$, t: M}, {t: ")", s: ">"}]
+    - [{t: "[", s: "{"}, P, F, L, D, V, {t: "-", s: "+"}, U, O, Y, W, {t: "]", s: "}"}]
+    - Z
+    - {h: SYM,  t: R}
+    - {t: _}
+    - {t: $$mdi:keyboard-return$$}
+    - {h: NAV, t: $$mdi:keyboard-space$$}
+    - {h: Fn, t: Q}
+  Nav:
+    - [{t: ▽, type: trans}, "*", 9, 8, 7, /, {t: ▽, type: trans}, $$mdi:arrow-collapse-down$$, $$mdi:chevron-up$$, $$mdi:arrow-collapse-up$$, {t: ▽, type: trans}, {t: ▽, type: trans}]
+    - [{t: ▽, type: trans}, 0, 6, 5, 4, {t: ▽, type: trans}, ⇱, $$mdi:chevron-left$$, $$mdi:chevron-down$$, $$mdi:chevron-right$$, ⇲, {t: ▽, type: trans}]
+    - [{t: ▽, type: trans}, {t: ▽, type: trans}, 3, 2, 1, ., {t: ▽, type: trans}, "<<", {t: ▽, type: trans}, ">>", {t: ▽, type: trans}, {t: ▽, type: trans}]
+    - {t: ▽, type: trans}
+    - {t: ▽,type: trans}
+    - {t: ▽, type: trans}
+    - {t: ▽, type: trans}
+    - {t: NAV, type: ghost}
+    - {t: ▽, type: trans}
+  Sym:
+    - [$$mdi:keyboard-esc$$, "'", €, "|", "%", "¨", Æ, À, Ê, Î, µ, ":"]
+    - ["«", Ç, $, {h: $$mdi:apple-keyboard-shift$$, t: "@"}, "~", ^, Â, Ä, È, É, Å, "»"]
+    - [{t: ▽, type: trans}, {t: ▽, type: trans}, °, \, "&", ·, Û, Ù, Ö, Ô, Œ, {t: ▽, type: trans}]
+    - {t: ▽, type: trans}
+    - {t: SYM, type: ghost}
+    - {t: ▽, type: trans}
+    - {t: ▽, type: trans}
+    - {t: NBSP, s: NNBSP}
+    - {t: ▽, type: trans}
+combos:
+  - {p: [6, 7], k: $$mdi:monitor-screenshot$$, l: ["Base"]}
+  - {p: [5, 6], k: BOOT, a: top, l: ["Base"]}
+  - {p: [12, 23], k: Caps Wrd, a: top, l: ["Base"]}
+  - {p: [1, 2], k: $$mdi:keyboard-tab-reverse$$, l: ["Base"]}
+  - {p: [2, 3], k: $$mdi:keyboard-tab$$, l: ["Base"]}
+  - {p: [8, 9], k: $$mdi:backspace-outline$$, l: ["Base"]}
+  - {p: [9, 10], k: $$mdi:backspace-reverse-outline$$, l: ["Base"]}
+draw_config:
+  glyph_tap_size: 18
+  dark_mode: auto
