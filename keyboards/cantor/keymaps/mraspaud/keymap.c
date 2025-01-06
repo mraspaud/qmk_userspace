@@ -161,7 +161,7 @@ uint8_t NUM_CUSTOM_SHIFT_KEYS =
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      /*
       * ┌───┬───┬───┬───┬───┬───┐       ┌───┬───┬───┬───┬───┬───┐
-      * │Esc│ ’ │ B │ H │ G │ " │       │ # │ . │ / │ J │ X │Bsp│
+      * │Esc│ ’ │ B │ H │ G │ " │       │ # │ . │ / │ J │ X │ ! │
       * ├───┼───┼───┼───┼───┼───┤       ├───┼───┼───┼───┼───┼───┤
       * │ ( │ C │ S │ N │ T │ K │       │ , │ A │ E │ I │ M │ ) │
       * ├───┼───┼───┼───┼───┼───┤       ├───┼───┼───┼───┼───┼───┤
@@ -180,7 +180,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                             KC_Z,    CKC_R, KC_UNDS,                     KC_ENT,  CKC_SPC,  CKC_Q
     ),
     [L_NUMNAV] = LAYOUT_split_3x6_3( // num-nav
-        _______, US_ASTR, KC_9,    KC_8,    KC_7,    KC_SLSH,                                      _______, KC_PGDN, KC_UP,   KC_PGUP, _______, KC_VOLU,
+        _______, US_ASTR, KC_9,    KC_8,    KC_7,    KC_SLSH,                                      KC_BRID, KC_PGDN, KC_UP,   KC_PGUP, KC_BRIU, KC_VOLU,
         US_MUL,  KC_0,    KC_6,    CKC_5,   KC_4,    _______,                                      KC_HOME, KC_LEFT, KC_DOWN, KC_RGHT, KC_END,  KC_VOLD,
         US_DIV,  _______, KC_3,    KC_2,    KC_1,    KC_DOT,                                    S(US_MICR), KC_MPRV, KC_MPLY, KC_MNXT, KC_MSTP, KC_MUTE,
                                             _______, _______, _______,                    _______, _______, _______
