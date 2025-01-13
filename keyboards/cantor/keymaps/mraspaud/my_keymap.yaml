@@ -3,8 +3,8 @@ layout:
   layout_name: LAYOUT_split_3x6_3
 layers:
   Base:
-    - [$$mdi:keyboard-esc$$, {t: "’", s: "`"}, B, H, G, {t: '"', s: "="}, {t: "#", s: "…"}, {t: ".", s: "!"}, {t: "/", s: "*"}, J, X, {t: ":", s: ";"}]
-    - [{t: "(", s: "<"}, {h: $$mdi:linux$$, t: C}, {h: $$mdi:apple-keyboard-option$$, t: S}, {h: $$mdi:apple-keyboard-shift$$, t: N}, {h: $$mdi:apple-keyboard-control$$, t: D}, K, {t: ",", s: "?"}, {h: $$mdi:apple-keyboard-control$$, t: A}, {h: $$mdi:apple-keyboard-shift$$, t: E}, {h: $$mdi:apple-keyboard-option$$, t: I}, {h: $$mdi:linux$$, t: M}, {t: ")", s: ">"}]
+    - [$$mdi:keyboard-esc$$, {t: "’", s: "`"}, B, H, G, {t: '"', s: "="}, {t: "#", s: ";"}, {t: ".", s: "@"}, {t: "/", s: "*"}, J, X, {t: "!", s: "?"}]
+    - [{t: "(", s: "<"}, {h: $$mdi:linux$$, t: C}, {h: $$mdi:apple-keyboard-option$$, t: S}, {h: $$mdi:apple-keyboard-shift$$, t: N}, {h: $$mdi:apple-keyboard-control$$, t: D}, K, {t: ",", s: ":"}, {h: $$mdi:apple-keyboard-control$$, t: A}, {h: $$mdi:apple-keyboard-shift$$, t: E}, {h: $$mdi:apple-keyboard-option$$, t: I}, {h: $$mdi:linux$$, t: M}, {t: ")", s: ">"}]
     - [{t: "[", s: "{"}, P, F, L, D, V, {t: "-", s: "+"}, U, O, Y, W, {t: "]", s: "}"}]
     - Z
     - {h: SYM,  t: R}
@@ -13,9 +13,9 @@ layers:
     - {h: NAV, t: $$mdi:keyboard-space$$}
     - {h: Fn, t: Q}
   Nav:
-    - [{t: ▽, type: trans}, "*", 9, 8, 7, /, {t: ▽, type: trans}, $$mdi:arrow-collapse-down$$, $$mdi:chevron-up$$, $$mdi:arrow-collapse-up$$, {t: ▽, type: trans}, {t: ▽, type: trans}]
-    - [{t: ▽, type: trans}, 0, 6, 5, 4, {t: ▽, type: trans}, ⇱, $$mdi:chevron-left$$, $$mdi:chevron-down$$, $$mdi:chevron-right$$, ⇲, {t: ▽, type: trans}]
-    - [{t: ▽, type: trans}, {t: ▽, type: trans}, 3, 2, 1, ., {t: ▽, type: trans}, "<<", {t: ▽, type: trans}, ">>", {t: ▽, type: trans}, {t: ▽, type: trans}]
+    - [{t: ▽, type: trans}, "*", 9, 8, 7, /, $$mdi:brightness-7$$, $$mdi:arrow-collapse-down$$, $$mdi:chevron-up$$, $$mdi:arrow-collapse-up$$, $$mdi:brightness-5$$, $$mdi:volume-plus$$]
+    - [×, 0, 6, 5, 4, {t: ▽, type: trans}, ⇱, $$mdi:chevron-left$$, $$mdi:chevron-down$$, $$mdi:chevron-right$$, ⇲, $$mdi:volume-minus$$]
+    - [÷, {t: ▽, type: trans}, 3, 2, 1, ., "±", $$mdi:skip-previous$$, $$mdi:play$$, $$mdi:skip-next$$, $$mdi:stop$$, $$mdi:volume-mute$$]
     - {t: ▽, type: trans}
     - {t: ▽,type: trans}
     - {t: ▽, type: trans}
@@ -23,9 +23,9 @@ layers:
     - {t: NAV, type: ghost}
     - {t: ▽, type: trans}
   Sym:
-    - [$$mdi:keyboard-esc$$, "'", €, "|", "%", "¨", Æ, À, Ê, Î, µ, ":"]
-    - ["«", Ç, $, {h: $$mdi:apple-keyboard-shift$$, t: "@"}, "~", ^, Â, Ä, È, É, Å, "»"]
-    - [{t: ▽, type: trans}, {t: ▽, type: trans}, °, \, "&", ·, Û, Ù, Ö, Ô, Œ, {t: ▽, type: trans}]
+    - [$$mdi:keyboard-esc$$, "'", €, "|", "%", "¨", Æ, Â, Ê, Î, µ, "Ñ"]
+    - ["«", Ç, …, {h: $$mdi:apple-keyboard-shift$$, t: "$"}, "~", ^, À, Ä, È, É, Å, "»"]
+    - ["¿", "¡", °, \, "&", ·, Û, Ù, Ö, Ô, Œ, "Ø"]
     - {t: ▽, type: trans}
     - {t: SYM, type: ghost}
     - {t: ▽, type: trans}
