@@ -7,8 +7,11 @@
 // Layers declarations
 enum {
     L_BASE = 0,
-    L_NUMNAV,
+    L_SE,
+    L_NUM,
+    L_NAV,
     L_SYM,
+    L_FR,
     L_FN,
 };
 
@@ -63,6 +66,7 @@ const uint32_t PROGMEM unicode_map[] = {
 #define U_UGRV UP(UGRV, UUGRV)
 #define U_UCRC UP(UCRC, UUCRC)
 #define U_ELL  UM(ELL)
+#define KC_PSMS S(US_MICR)
 
 enum custom_keycodes {
     SMTD_KEYCODES_BEGIN = SAFE_RANGE,
@@ -85,7 +89,10 @@ enum custom_keycodes {
     CKC_R,
     CKC_5,
     CKC_Q,
+    CKC_Z,
+    CKC_UND,
     SMTD_KEYCODES_END,
+    CKC_QU,
 };
 
 #include "sm_td.h"
@@ -98,6 +105,16 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     }
     if (!process_custom_shift_keys(keycode, record)) {
         return false;
+    }
+    switch (keycode) {
+    case CKC_QU:
+        if (record->event.pressed) {
+            // when keycode QMKBEST is pressed
+            SEND_STRING("qu");
+        } else {
+            // when keycode QMKBEST is released
+        }
+        break;
     }
     // your code here
     return true;
@@ -121,10 +138,12 @@ void on_smtd_action(uint16_t keycode, smtd_action action, uint8_t tap_count) {
         SMTD_MT(CKC_SI, S(KC_I), KC_LEFT_ALT)
         SMTD_MT(CKC_SM, S(KC_M), KC_RIGHT_GUI)
         SMTD_MT(CKC_DLR, US_DLR, KC_LEFT_SHIFT)
-        SMTD_LT(CKC_SPC, KC_SPACE, L_NUMNAV)
+        SMTD_LT(CKC_SPC, KC_SPACE, L_NAV)
         SMTD_LT(CKC_R, KC_R, L_SYM)
         SMTD_MT(CKC_5, KC_5, KC_LEFT_SHIFT)
         SMTD_LT(CKC_Q, KC_Q, L_FN)
+        SMTD_LT(CKC_Z, KC_Z, L_FR)
+        SMTD_LT(CKC_UND, KC_UNDS, L_NUM)
     }
 }
 
@@ -144,12 +163,12 @@ const custom_shift_key_t custom_shift_keys[] = {
   {KC_DOT , US_AT}, // Shift . is @
   {KC_COMM, KC_COLN}, // Shift , is :
   {US_DQUO, KC_EQL }, // Shift " is =
-  {KC_MINS, S(KC_EQL) }, // Shift - is +
-  {KC_LPRN, KC_LABK }, // Shift ( is <
-  {KC_RPRN, KC_RABK }, // Shift ) is >
+  {KC_UNDS, KC_MINS }, // Shift _ is -
+  {KC_LPRN, KC_LBRC }, // Shift ( is [
+  {KC_RPRN, KC_RBRC }, // Shift ) is ]
   {KC_UNDS, KC_UNDS }, // Shift _ is _
   {KC_SLSH, US_ASTR }, // Shift / is *
-  {US_RSQU, US_GRV }, // Shift ’ is *
+  {US_RSQU, US_GRV }, // Shift ’ is `
   {KC_EXLM, KC_QUES}, // Shift ! is ?
   {US_HASH, US_SCLN},  // Shift # is ;
 };
@@ -168,28 +187,45 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       *               ┌───┐                   ┌───┐
       *               │ Z ├───┐           ┌───┤ Q │
       *               └───┤ R ├───┐   ┌───┤   ├───┘
-      *                   └───┤ _ │   │Ent├───┘
+      *                   └───┤ _ │   │Esc├───┘
       *                       └───┘   └───┘
       */
-    [L_BASE] = LAYOUT_split_3x6_3( // base
-        KC_ESC,  US_RSQU, KC_B,    KC_H,    KC_G,    US_DQUO,                                      US_HASH, KC_DOT,  KC_SLSH, KC_J,    KC_X,    KC_EXLM,
+    [L_BASE] = LAYOUT_split_3x6_3(
+        KC_Z,    US_RSQU, KC_B,    KC_H,    KC_G,    US_DQUO,                                      US_HASH, KC_DOT,  KC_SLSH, KC_J,    KC_X,    CKC_QU,
         KC_LPRN, CKC_C,   CKC_S,   CKC_N,   CKC_T,   KC_K,                                         KC_COMM, CKC_A,   CKC_E,   CKC_I,   CKC_M,   KC_RPRN,
-        KC_LBRC, KC_P,    KC_F,    KC_L,    KC_D,    KC_V,                                         KC_MINS, KC_U,    KC_O,    KC_Y,    KC_W,    KC_RBRC,
-                                            KC_Z,    CKC_R, KC_UNDS,                      KC_ENT,  CKC_SPC, CKC_Q
+        KC_EQL,  KC_P,    KC_F,    KC_L,    KC_D,    KC_V,                                         KC_UNDS, KC_U,    KC_O,    KC_Y,    KC_W,    KC_EXLM,
+                                            CKC_Z,   CKC_R, CKC_UND,                      KC_ESC,  CKC_SPC, CKC_Q
     ),
-    [L_NUMNAV] = LAYOUT_split_3x6_3( // num-nav
-        _______, US_ASTR, KC_9,    KC_8,    KC_7,    KC_SLSH,                                      KC_BRID, KC_PGDN, KC_UP,   KC_PGUP, KC_BRIU, KC_VOLU,
-        US_MUL,  KC_0,    KC_6,    CKC_5,   KC_4,    _______,                                      KC_HOME, KC_LEFT, KC_DOWN, KC_RGHT, KC_END,  KC_VOLD,
-        US_DIV,  _______, KC_3,    KC_2,    KC_1,    KC_DOT,                                    S(US_MICR), KC_MPRV, KC_MPLY, KC_MNXT, KC_MSTP, KC_MUTE,
+    [L_SE] = LAYOUT_split_3x6_3(
+        _______, _______, _______, _______, _______, _______,                                      US_ARNG, _______, US_ADIA, _______, _______,  KC_Q,
+        _______, _______, _______, _______, _______, _______,                                      _______, _______, _______, _______, _______,  _______,
+        _______, _______, _______, _______, _______, _______,                                      US_ODIA, _______, _______, _______, _______,  _______,
+                                            _______, _______, _______,                    _______, _______, _______
+    ),
+    [L_NUM] = LAYOUT_split_3x6_3(
+        _______, KC_PSMS, KC_MINS, US_PLUS, KC_EQL,  _______,                                      _______, KC_DOT,  KC_SLSH, US_ASTR, _______, _______,
+        _______,  KC_6,   KC_4,    KC_0,    KC_2,    _______,                                      _______, KC_3,    KC_1,    KC_5,    KC_7,    _______,
+        US_DIV,   US_MUL,  _______, _______, KC_8,   _______,                                      KC_MINS, KC_9,    _______, _______, _______, _______,
+                                            _______, _______, _______,                    _______, _______, _______
+    ),
+    [L_NAV] = LAYOUT_split_3x6_3(
+        _______, _______, _______, _______, _______, _______,                                      KC_BRID, KC_PGDN, KC_UP,   KC_PGUP, KC_BRIU, KC_VOLU,
+        _______, KC_LGUI, KC_LALT, KC_LSFT, KC_LCTL, S(KC_EQL),                                    KC_HOME, KC_LEFT, KC_DOWN, KC_RGHT, KC_END,  KC_VOLD,
+        _______, _______, _______, _______, _______, _______,                                      _______, KC_MPRV, KC_MPLY, KC_MNXT, KC_MSTP, KC_MUTE,
                                             _______, _______, _______,                    _______, _______, _______
     ),
     [L_SYM] = LAYOUT_split_3x6_3(
-        KC_ESC,  US_QUOT, US_EURO, KC_PIPE, US_PERC, US_DIAE,                                      US_AE,   U_ACRC,  U_ECRC,  U_ICRC,  US_MICR, US_NTIL,
-        US_LDAQ, US_CCED, U_ELL,   CKC_DLR, US_TILD, US_CIRC,                                      U_AGRV,  US_ADIA, U_EGRV,  US_EACU, US_ARNG, US_RDAQ,
-        US_IQUE, US_IEXL, US_DEG,  US_BSLS, US_AMPR, RALT(KC_X),                                   U_UCRC,  U_UGRV,  US_ODIA, U_OCRC,  US_OE,   US_OSTR,
+        _______, US_QUOT, _______, KC_PIPE, US_PERC, _______,                                      _______, US_TILD, US_BSLS, _______, _______, _______,
+        _______, KC_LABK, KC_LCBR, KC_RCBR, KC_RABK, _______,                                      _______, US_CIRC, CKC_DLR, US_EURO, _______, _______,
+        _______, _______, KC_LBRC, KC_RBRC, _______, _______,                                      _______, US_AMPR, US_DEG,  _______, _______, _______,
                                             _______, _______, _______,                    _______, RALT(KC_SPC),  _______
     ),
-
+    [L_FR] = LAYOUT_split_3x6_3(
+        _______, _______, _______, _______, _______, US_DIAE,                                      US_AE,   U_ACRC,  U_ECRC,  U_ICRC,  US_MICR, US_NTIL,
+        US_LDAQ, US_CCED, _______, _______, _______, _______,                                      U_AGRV,  _______, U_EGRV,  US_EACU, _______, US_RDAQ,
+        US_IQUE, US_IEXL, _______, _______, _______, _______,                                      U_UCRC,  U_UGRV,  _______, U_OCRC,  US_OE,   US_OSTR,
+                                            _______, _______, _______,                 RALT(KC_X), U_ELL,   _______
+    ),
     [L_FN] = LAYOUT_split_3x6_3(
         _______, _______, _______, _______, _______, _______,                                      _______, KC_F9,   KC_F10,  KC_F11,  KC_F12,  _______,
         _______, _______, _______, KC_LSFT, _______, _______,                                      _______, KC_F5,   KC_F6,   KC_F7,   KC_F8,   _______,
@@ -202,18 +238,32 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 const uint16_t PROGMEM combo_tab[] = {KC_B, KC_H, COMBO_END};
 const uint16_t PROGMEM combo_stab[] = {US_RSQU, KC_B, COMBO_END};
 const uint16_t PROGMEM combo_backspace[] = {KC_SLASH, KC_J, COMBO_END};
+const uint16_t PROGMEM combo_backspace_se[] = {US_ADIA, KC_J, COMBO_END};
 const uint16_t PROGMEM combo_delete[] = { KC_J, KC_X, COMBO_END};
 const uint16_t PROGMEM combo_prtscr[] = {US_HASH, KC_DOT, COMBO_END};
 const uint16_t PROGMEM combo_capsword[] = {KC_LPRN, KC_RPRN, COMBO_END};
 const uint16_t PROGMEM combo_bootloader[] = {US_DQUO, US_HASH, COMBO_END};
 const uint16_t PROGMEM combo_sleep[] = {KC_COMM, KC_MINS, COMBO_END};
+const uint16_t PROGMEM combo_colon[] = {KC_P, KC_F, COMBO_END};
+const uint16_t PROGMEM combo_enter[] = {CKC_A, CKC_I, COMBO_END};
+const uint16_t PROGMEM combo_q[] = {KC_Y, KC_W, COMBO_END};
+const uint16_t PROGMEM combo_q_se[] = {US_ODIA, KC_W, COMBO_END};
+const uint16_t PROGMEM combo_se[] = {KC_SLSH, US_HASH, COMBO_END};
+const uint16_t PROGMEM combo_se_back[] = {US_ARNG, US_ADIA, COMBO_END};
 combo_t key_combos[] = {
     COMBO(combo_tab, KC_TAB),
     COMBO(combo_stab, S(KC_TAB)),
     COMBO(combo_backspace, KC_BSPC),
+    COMBO(combo_backspace_se, KC_BSPC),
     COMBO(combo_delete, KC_DELETE),
     COMBO(combo_prtscr, KC_PRINT_SCREEN),
     COMBO(combo_capsword, CW_TOGG),
     COMBO(combo_bootloader, QK_BOOT),
     COMBO(combo_sleep, KC_SYSTEM_SLEEP),
+    COMBO(combo_colon, KC_COLN),
+    COMBO(combo_enter, KC_ENT),
+    COMBO(combo_q, KC_Q),
+    COMBO(combo_q_se, KC_Q),
+    COMBO(combo_se, TG(L_SE)),
+    COMBO(combo_se_back, TG(L_SE)),
 };

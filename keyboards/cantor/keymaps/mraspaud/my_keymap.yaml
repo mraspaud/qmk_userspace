@@ -3,18 +3,28 @@ layout:
   layout_name: LAYOUT_split_3x6_3
 layers:
   Base:
-    - [$$mdi:keyboard-esc$$, {t: "’", s: "`"}, B, H, G, {t: '"', s: "="}, {t: "#", s: ";"}, {t: ".", s: "@"}, {t: "/", s: "*"}, J, X, {t: "!", s: "?"}]
+    - [_, {t: "’", s: "`"}, B, H, G, {t: '"', s: "="}, {t: "#", s: ";"}, {t: ".", s: "@"}, {t: "/", s: "*"}, J, X, {t: "!", s: "?"}]
     - [{t: "(", s: "<"}, {h: $$mdi:linux$$, t: C}, {h: $$mdi:apple-keyboard-option$$, t: S}, {h: $$mdi:apple-keyboard-shift$$, t: N}, {h: $$mdi:apple-keyboard-control$$, t: D}, K, {t: ",", s: ":"}, {h: $$mdi:apple-keyboard-control$$, t: A}, {h: $$mdi:apple-keyboard-shift$$, t: E}, {h: $$mdi:apple-keyboard-option$$, t: I}, {h: $$mdi:linux$$, t: M}, {t: ")", s: ">"}]
     - [{t: "[", s: "{"}, P, F, L, D, V, {t: "-", s: "+"}, U, O, Y, W, {t: "]", s: "}"}]
     - Z
     - {h: SYM,  t: R}
-    - {t: _}
+    - "_"
+    - $$mdi:keyboard-esc$$
+    - {h: NAV, t: $$mdi:keyboard-space$$}
+    - {h: Fn, t: Q}
+  Se:
+    - [_, {t: "’", s: "`"}, B, H, G, {t: '"', s: "="}, "Å", {t: ".", s: "@"}, "Ä", J, X, {t: "!", s: "?"}]
+    - [{t: "(", s: "<"}, {h: $$mdi:linux$$, t: C}, {h: $$mdi:apple-keyboard-option$$, t: S}, {h: $$mdi:apple-keyboard-shift$$, t: N}, {h: $$mdi:apple-keyboard-control$$, t: D}, K, {t: ",", s: ":"}, {h: $$mdi:apple-keyboard-control$$, t: A}, {h: $$mdi:apple-keyboard-shift$$, t: E}, {h: $$mdi:apple-keyboard-option$$, t: I}, {h: $$mdi:linux$$, t: M}, {t: ")", s: ">"}]
+    - [{t: "[", s: "{"}, P, F, L, D, V, {t: "-", s: "+"}, U, O, Y, Ö, W]
+    - Z
+    - {h: SYM,  t: R}
+    - $$mdi:keyboard-esc$$
     - {t: $$mdi:keyboard-return$$}
     - {h: NAV, t: $$mdi:keyboard-space$$}
     - {h: Fn, t: Q}
   Nav:
     - [{t: ▽, type: trans}, "*", 9, 8, 7, /, $$mdi:brightness-7$$, $$mdi:arrow-collapse-down$$, $$mdi:chevron-up$$, $$mdi:arrow-collapse-up$$, $$mdi:brightness-5$$, $$mdi:volume-plus$$]
-    - [×, 0, 6, 5, 4, {t: ▽, type: trans}, ⇱, $$mdi:chevron-left$$, $$mdi:chevron-down$$, $$mdi:chevron-right$$, ⇲, $$mdi:volume-minus$$]
+    - [×, 0, 6, 5, 4, "+", ⇱, $$mdi:chevron-left$$, $$mdi:chevron-down$$, $$mdi:chevron-right$$, ⇲, $$mdi:volume-minus$$]
     - [÷, {t: ▽, type: trans}, 3, 2, 1, ., "±", $$mdi:skip-previous$$, $$mdi:play$$, $$mdi:skip-next$$, $$mdi:stop$$, $$mdi:volume-mute$$]
     - {t: ▽, type: trans}
     - {t: ▽,type: trans}
@@ -35,6 +45,8 @@ layers:
 combos:
   - {p: [6, 7], k: $$mdi:monitor-screenshot$$, l: ["Base"]}
   - {p: [5, 6], k: BOOT, a: top, l: ["Base"]}
+  - {p: [6, 8], k: SE, a: top, l: ["Base"]}
+  - {p: [19, 21], k: $$mdi:keyboard-return$$, a: top, l: ["Base"]}
   - {p: [12, 23], k: Caps Wrd, a: top, l: ["Base"]}
   - {p: [1, 2], k: $$mdi:keyboard-tab-reverse$$, l: ["Base"]}
   - {p: [2, 3], k: $$mdi:keyboard-tab$$, l: ["Base"]}
