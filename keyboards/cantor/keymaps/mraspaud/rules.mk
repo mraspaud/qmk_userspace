@@ -7,3 +7,4 @@ LTO_ENABLE = yes
 DEFERRED_EXEC_ENABLE = yes
 SRC += features/custom_shift_keys.c
 CAPS_WORD_ENABLE = yes
+LAYER_LOCK_ENABLE = yes
