@@ -3,44 +3,64 @@ layout:
   layout_name: LAYOUT_split_3x6_3
 layers:
   Base:
-    - [_, {t: "’", s: "`"}, B, H, G, {t: '"', s: "="}, {t: "#", s: ";"}, {t: ".", s: "@"}, {t: "/", s: "*"}, J, X, {t: "!", s: "?"}]
-    - [{t: "(", s: "<"}, {h: $$mdi:linux$$, t: C}, {h: $$mdi:apple-keyboard-option$$, t: S}, {h: $$mdi:apple-keyboard-shift$$, t: N}, {h: $$mdi:apple-keyboard-control$$, t: D}, K, {t: ",", s: ":"}, {h: $$mdi:apple-keyboard-control$$, t: A}, {h: $$mdi:apple-keyboard-shift$$, t: E}, {h: $$mdi:apple-keyboard-option$$, t: I}, {h: $$mdi:linux$$, t: M}, {t: ")", s: ">"}]
-    - [{t: "[", s: "{"}, P, F, L, D, V, {t: "-", s: "+"}, U, O, Y, W, {t: "]", s: "}"}]
-    - Z
-    - {h: SYM,  t: R}
-    - "_"
-    - $$mdi:keyboard-esc$$
-    - {h: NAV, t: $$mdi:keyboard-space$$}
-    - {h: Fn, t: Q}
-  Se:
-    - [_, {t: "’", s: "`"}, B, H, G, {t: '"', s: "="}, "Å", {t: ".", s: "@"}, "Ä", J, X, {t: "!", s: "?"}]
-    - [{t: "(", s: "<"}, {h: $$mdi:linux$$, t: C}, {h: $$mdi:apple-keyboard-option$$, t: S}, {h: $$mdi:apple-keyboard-shift$$, t: N}, {h: $$mdi:apple-keyboard-control$$, t: D}, K, {t: ",", s: ":"}, {h: $$mdi:apple-keyboard-control$$, t: A}, {h: $$mdi:apple-keyboard-shift$$, t: E}, {h: $$mdi:apple-keyboard-option$$, t: I}, {h: $$mdi:linux$$, t: M}, {t: ")", s: ">"}]
-    - [{t: "[", s: "{"}, P, F, L, D, V, {t: "-", s: "+"}, U, O, Y, Ö, W]
-    - Z
+    - [Z, {t: "’", s: "'"}, B, H, G, {t: '"', s: "`"}, {t: "@", s: "?"}, {t: ".", s: "!"}, {t: "/", s: "*"}, J, X, Q]
+    - [{t: "(", s: "{"}, {h: $$mdi:linux$$, t: C}, {h: $$mdi:apple-keyboard-option$$, t: S}, {h: $$mdi:apple-keyboard-shift$$, t: N}, {h: $$mdi:apple-keyboard-control$$, t: T}, K, {t: ",", s: ":"}, {h: $$mdi:apple-keyboard-control$$, t: A}, {h: $$mdi:apple-keyboard-shift$$, t: E}, {h: $$mdi:apple-keyboard-option$$, t: I}, {h: $$mdi:linux$$, t: M}, {t: ")", s: "}"}]
+    - [{t: "[", s: "<"}, P, F, L, D, V, {t: "-", s: "+"}, U, O, Y, W, {t: "]", s: ">"}]
+    - "TH"
     - {h: SYM,  t: R}
     - $$mdi:keyboard-esc$$
-    - {t: $$mdi:keyboard-return$$}
+    - [{t: "_", s: "-" }]
     - {h: NAV, t: $$mdi:keyboard-space$$}
-    - {h: Fn, t: Q}
+    - "QU"
   Nav:
-    - [{t: ▽, type: trans}, "*", 9, 8, 7, /, $$mdi:brightness-7$$, $$mdi:arrow-collapse-down$$, $$mdi:chevron-up$$, $$mdi:arrow-collapse-up$$, $$mdi:brightness-5$$, $$mdi:volume-plus$$]
-    - [×, 0, 6, 5, 4, "+", ⇱, $$mdi:chevron-left$$, $$mdi:chevron-down$$, $$mdi:chevron-right$$, ⇲, $$mdi:volume-minus$$]
-    - [÷, {t: ▽, type: trans}, 3, 2, 1, ., "±", $$mdi:skip-previous$$, $$mdi:play$$, $$mdi:skip-next$$, $$mdi:stop$$, $$mdi:volume-mute$$]
+    - [{t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, $$mdi:brightness-7$$, $$mdi:arrow-collapse-down$$, $$mdi:chevron-up$$, $$mdi:arrow-collapse-up$$, $$mdi:brightness-5$$, $$mdi:volume-plus$$]
+    - [{t: ▽, type: trans}, $$mdi:linux$$, $$mdi:apple-keyboard-option$$, $$mdi:apple-keyboard-shift$$, $$mdi:apple-keyboard-control$$, {t: ▽, type: trans}, ⇱, $$mdi:chevron-left$$, $$mdi:chevron-down$$, $$mdi:chevron-right$$, ⇲, $$mdi:volume-minus$$]
+    - [÷, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, $$mdi:skip-previous$$, $$mdi:play$$, $$mdi:skip-next$$, $$mdi:stop$$, $$mdi:volume-mute$$]
     - {t: ▽, type: trans}
-    - {t: ▽,type: trans}
+    - $$mdi:apple-keyboard-option$$
     - {t: ▽, type: trans}
     - {t: ▽, type: trans}
     - {t: NAV, type: ghost}
     - {t: ▽, type: trans}
   Sym:
-    - [$$mdi:keyboard-esc$$, "'", €, "|", "%", "¨", Æ, Â, Ê, Î, µ, "Ñ"]
-    - ["«", Ç, …, {h: $$mdi:apple-keyboard-shift$$, t: "$"}, "~", ^, À, Ä, È, É, Å, "»"]
-    - ["¿", "¡", °, \, "&", ·, Û, Ù, Ö, Ô, Œ, "Ø"]
+    - ["\\", "'", "|", "&", "%", {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, "~", ";", "°"]
+    - [{t: ▽, type: trans}, 6, 4, 0, 2, "-", {t: ▽, type: trans}, 3, 1, 5, 7, {t: ▽, type: trans}]
+    - [{t: ▽, type: trans}, "^", "€", "$", 8, "+", {t: ▽, type: trans}, 9, "!", "…", "?", {t: ▽, type: trans}]
     - {t: ▽, type: trans}
     - {t: SYM, type: ghost}
     - {t: ▽, type: trans}
     - {t: ▽, type: trans}
     - {t: NBSP, s: NNBSP}
+    - "Lock"
+  Se:
+    - [{t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, "Ä", {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}]
+    - [{t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}]
+    - [{t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, "Å", {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}]
+    - {t: ▽, type: trans}
+    - {t: ▽, type: trans}
+    - {t: ▽, type: trans}
+    - "-"
+    - {t: ▽, type: trans}
+    - "Ö"
+  Fr:
+    - [{t: ▽, type: trans}, '"', {t: ▽, type: trans}, {t: ▽, type: trans}, "’", {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, "É", {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}]
+    - [{t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, $$mdi:star$$, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}]
+    - [{t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, "À", {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}]
+    - "Ç"
+    - {t: ▽, type: trans}
+    - {t: ▽, type: trans}
+    - "-"
+    - {t: ▽, type: trans}
+    - {t: ▽, type: trans}
+  FrMagic:
+    - [{t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, "´", {t: ▽, type: trans}, "¨", {t: ▽, type: trans}, "·", "È", {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}]
+    - ["«", "¸", "~", "`", "^", K, {t: ▽, type: trans}, Â, Ê, Î, µ, "»"]
+    - [{t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, "Û", "Ô", "Où", "Œ", {t: ▽, type: trans}]
+    - {t: ▽, type: trans}
+    - {t: ▽, type: trans}
+    - {t: ▽, type: trans}
+    - "·"
+    - {t: ▽, type: trans}
     - {t: ▽, type: trans}
 combos:
   - {p: [6, 7], k: $$mdi:monitor-screenshot$$, l: ["Base"]}
