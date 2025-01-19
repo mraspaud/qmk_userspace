@@ -82,6 +82,7 @@ enum custom_keycodes {
     SMTD_KEYCODES_END,
     CKC_QU,
     CKC_OU,
+    CKC_TH,
 };
 
 #include "sm_td.h"
@@ -104,7 +105,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             break;
         case CKC_QU:
             if (record->event.pressed) {
-                // when keycode QMKBEST is pressed
                 SEND_STRING("qu");
             } else {
                 // when keycode QMKBEST is released
@@ -118,6 +118,13 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                     SEND_STRING("o");
                 }
                 send_unicode_string("ù");
+            } else {
+                // when keycode QMKBEST is released
+            }
+            break;
+        case CKC_TH:
+            if (record->event.pressed) {
+                SEND_STRING("th");
             } else {
                 // when keycode QMKBEST is released
             }
@@ -154,6 +161,11 @@ tap_dance_action_t tap_dance_actions[] = {
 
 #define SE_ODIA TD(TD_ODIA)
 #define SE_ADIA TD(TD_ADIA)
+#define OS_LSFT OSM(MOD_LSFT)
+#define OS_LALT OSM(MOD_LALT)
+#define OS_LCTL OSM(MOD_LCTL)
+#define LT_SPC LT(L_NAV, KC_SPC)
+#define LT_R LT(L_NUMSYM, KC_R)
 
  const custom_shift_key_t custom_shift_keys[] = {
   {KC_DOT , KC_EXLM}, // Shift . is !
@@ -175,7 +187,7 @@ uint8_t NUM_CUSTOM_SHIFT_KEYS =
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      /*
       * ┌───┬───┬───┬───┬───┬───┐       ┌───┬───┬───┬───┬───┬───┐
-      * │ Z │ ’ │ B │ H │ G │ " │       │ @ │ . │ / │ J │ X │ Q │
+      * │ Z │ ’ │ B │ H │ G │ " │       │ @ │ . │ / │ J │ X │Qu │
       * ├───┼───┼───┼───┼───┼───┤       ├───┼───┼───┼───┼───┼───┤
       * │ ( │ C │ S │ N │ T │ K │       │ , │ A │ E │ I │ M │ ) │
       * ├───┼───┼───┼───┼───┼───┤       ├───┼───┼───┼───┼───┼───┤
@@ -188,14 +200,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       *                       └───┘   └───┘
       */
     [L_BASE] = LAYOUT_split_3x6_3(
-        KC_Z,    US_RSQU, KC_B,    KC_H,    KC_G,    US_DQUO,                                      US_AT,   KC_DOT,  KC_SLSH, KC_J,    KC_X,    CKC_QU,
+        KC_Z,    US_RSQU, KC_B,    KC_H,    KC_G,    US_DQUO,                                      US_AT,   KC_DOT,  KC_SLSH, KC_J,    KC_X,    KC_Q,
         KC_LPRN, KC_C,    KC_S,    CKC_N,   CKC_T,   KC_K,                                         KC_COMM, CKC_A,   CKC_E,   KC_I,    KC_M,    KC_RPRN,
         KC_LBRC, KC_P,    KC_F,    KC_L,    KC_D,    KC_V,                                         KC_EQL,  KC_U,    KC_O,    KC_Y,    KC_W,    KC_RBRC,
-                                            KC_Z,    CKC_R, KC_ESC,                       KC_UNDS, CKC_SPC, KC_Q
+                                            CKC_TH,  LT_R,  KC_ESC,                       KC_UNDS, LT_SPC,  CKC_QU
     ),
       /*
       * ┌───┬───┬───┬───┬───┬───┐       ┌───┬───┬───┬───┬───┬───┐
-      * │ Z │ ’ │ B │ H │ G │ " │       │ Å │ . │ Ä │ J │ X │ Q │
+      * │ Z │ ’ │ B │ H │ G │ " │       │ Å │ . │ Ä │ J │ X │Qu │
       * ├───┼───┼───┼───┼───┼───┤       ├───┼───┼───┼───┼───┼───┤
       * │ ( │ C │ S │ N │ T │ K │       │ , │ A │ E │ I │ M │ ) │
       * ├───┼───┼───┼───┼───┼───┤       ├───┼───┼───┼───┼───┼───┤
@@ -208,7 +220,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       *                       └───┘   └───┘
       */
     [L_SE] = LAYOUT_split_3x6_3(
-        _______, _______, _______, _______, _______, _______,                                      US_ARNG, _______, SE_ADIA, _______, _______,  KC_Q,
+        _______, _______, _______, _______, _______, _______,                                      US_ARNG, _______, SE_ADIA, _______, _______,  _______,
         _______, _______, _______, _______, _______, _______,                                      _______, _______, _______, _______, _______,  _______,
         _______, _______, _______, _______, _______, _______,                                      SE_ODIA, _______, _______, _______, _______,  _______,
                                             _______, _______, _______,                    _______, _______, _______
@@ -229,13 +241,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       */
     [L_NAV] = LAYOUT_split_3x6_3(
         _______, _______, _______, _______, _______, _______,                                      KC_BRID, KC_PGDN, KC_UP,   KC_PGUP, KC_BRIU, KC_VOLU,
-        _______, KC_LGUI, KC_LALT, KC_LSFT, KC_LCTL, _______,                                      KC_HOME, KC_LEFT, KC_DOWN, KC_RGHT, KC_END,  KC_VOLD,
+        _______, KC_LGUI, OS_LALT, OS_LSFT, OS_LCTL, _______,                                      KC_HOME, KC_LEFT, KC_DOWN, KC_RGHT, KC_END,  KC_VOLD,
         _______, _______, _______, _______, _______, _______,                                      _______, KC_MPRV, KC_MPLY, KC_MNXT, KC_MSTP, KC_MUTE,
                                             _______, KC_LALT, _______,                    _______, _______, _______
     ),
         /*
       * ┌───┬───┬───┬───┬───┬───┐       ┌───┬───┬───┬───┬───┬───┐
-      * │ Z │ ’ │ B │ H │ G │ " │       │ @ │ . │ / │ J │ X │ Q │
+      * │ Z │ ’ │ B │ H │ G │ " │       │ @ │ . │ / │ J │ X │Qu │
       * ├───┼───┼───┼───┼───┼───┤       ├───┼───┼───┼───┼───┼───┤
       * │ ( │ C │ S │ N │ T │ K │       │ , │ A │ E │ I │ M │ ) │
       * ├───┼───┼───┼───┼───┼───┤       ├───┼───┼───┼───┼───┼───┤
@@ -275,7 +287,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
       /*
       * ┌───┬───┬───┬───┬───┬───┐       ┌───┬───┬───┬───┬───┬───┐
-      * │ Z │ " │ B │ ' │ G │ " │       │ @ │ . │ È │ J │ X │ Q │
+      * │ Z │ " │ B │ ' │ G │ " │       │ @ │ . │ È │ J │ X │Qu │
       * ├───┼───┼───┼───┼───┼───┤       ├───┼───┼───┼───┼───┼───┤
       * │ « │ Ç │ ~ │ ` │ ^ │ K │       │ , │ Ê │ Ê │ Î │ µ │ » │
       * ├───┼───┼───┼───┼───┼───┤       ├───┼───┼───┼───┼───┼───┤
@@ -295,7 +307,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
       /*
       * ┌───┬───┬───┬───┬───┬───┐       ┌───┬───┬───┬───┬───┬───┐
-      * │ Z │ ’ │ B │ H │ G │ " │       │ # │ . │ / │ J │ X │ Q │
+      * │ Z │ ’ │ B │ H │ G │ " │       │ # │ . │ / │ J │ X │Qu │
       * ├───┼───┼───┼───┼───┼───┤       ├───┼───┼───┼───┼───┼───┤
       * │ ( │ C │ S │ N │ T │ K │       │ , │ A │ E │ I │ M │ ) │
       * ├───┼───┼───┼───┼───┼───┤       ├───┼───┼───┼───┼───┼───┤
@@ -330,8 +342,8 @@ const uint16_t PROGMEM combo_enter[] = {CKC_A, KC_I, COMBO_END};
 const uint16_t PROGMEM combo_q[] = {KC_Y, KC_W, COMBO_END};
 const uint16_t PROGMEM combo_q_se[] = {US_ODIA, KC_W, COMBO_END};
 const uint16_t PROGMEM combo_se[] = {KC_S, CKC_E, COMBO_END};
-const uint16_t PROGMEM combo_fr[] = {KC_F, CKC_R, COMBO_END};
-const uint16_t PROGMEM combo_fn[] = {CKC_SPC, CKC_R, COMBO_END};
+const uint16_t PROGMEM combo_fr[] = {KC_F, LT_R, COMBO_END};
+const uint16_t PROGMEM combo_fn[] = {LT_SPC, LT_R, COMBO_END};
 combo_t key_combos[] = {
     COMBO(combo_tab, KC_TAB),
     COMBO(combo_stab, S(KC_TAB)),
