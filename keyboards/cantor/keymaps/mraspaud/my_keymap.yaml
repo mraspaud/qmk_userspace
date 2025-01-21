@@ -4,8 +4,8 @@ layout:
 layers:
   Base:
     - [Z, {t: "’", s: "'"}, B, H, G, {t: '"', s: "`"}, {t: "@", s: "?"}, {t: ".", s: "!"}, {t: "/", s: "*"}, J, X, Q]
-    - [{t: "(", s: "{"}, {h: $$mdi:linux$$, t: C}, {h: $$mdi:apple-keyboard-option$$, t: S}, {h: $$mdi:apple-keyboard-shift$$, t: N}, {h: $$mdi:apple-keyboard-control$$, t: T}, K, {t: ",", s: ":"}, {h: $$mdi:apple-keyboard-control$$, t: A}, {h: $$mdi:apple-keyboard-shift$$, t: E}, {h: $$mdi:apple-keyboard-option$$, t: I}, {h: $$mdi:linux$$, t: M}, {t: ")", s: "}"}]
-    - [{t: "[", s: "<"}, P, F, L, D, V, {t: "-", s: "+"}, U, O, Y, W, {t: "]", s: ">"}]
+    - [{t: "(", s: "{"}, C, S, {h: $$mdi:apple-keyboard-shift$$, t: N}, {h: $$mdi:apple-keyboard-control$$, t: T}, K, {t: ",", s: ":"}, {h: $$mdi:apple-keyboard-control$$, t: A}, {h: $$mdi:apple-keyboard-shift$$, t: E}, I, M, {t: ")", s: "}"}]
+    - [{t: "[", s: "<"}, P, F, L, D, V, {t: "=", s: "#"}, U, O, Y, W, {t: "]", s: ">"}]
     - "TH"
     - {h: SYM,  t: R}
     - $$mdi:keyboard-esc$$
