@@ -3,7 +3,7 @@ layout:
   layout_name: LAYOUT_split_3x6_3
 layers:
   Base:
-    - [Z, {t: "’", s: "'"}, B, H, G, {t: '"', s: "`"}, {t: "@", s: "?"}, {t: ".", s: "!"}, {t: "/", s: "*"}, J, X, Q]
+    - [Z, {t: "'", s: "’"}, B, H, G, {t: '"', s: "`"}, {t: "@", s: "?"}, {t: ".", s: "!"}, {t: "/", s: "*"}, J, X, Q]
     - [{t: "(", s: "{"}, C, S, {h: $$mdi:apple-keyboard-shift$$, t: N}, {h: $$mdi:apple-keyboard-control$$, t: T}, K, {t: ",", s: ":"}, {h: $$mdi:apple-keyboard-control$$, t: A}, {h: $$mdi:apple-keyboard-shift$$, t: E}, I, M, {t: ")", s: "}"}]
     - [{t: "[", s: "<"}, P, F, L, D, V, {t: "=", s: "#"}, U, O, Y, W, {t: "]", s: ">"}]
     - "TH"
@@ -30,26 +30,36 @@ layers:
     - {t: SYM, type: ghost}
     - {t: ▽, type: trans}
     - {t: ▽, type: trans}
-    - {t: NBSP, s: NNBSP}
+    - {t: NNBSP, s: NBSP}
     - "Lock"
-  Se:
-    - [{t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, "Ä", {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}]
+  En:
+    - [{t: ▽, type: trans}, {t: "’", s: "”"}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}]
     - [{t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}]
-    - [{t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, "Å", {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}]
+    - [{t: "‘", s: "“"}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: "’", s: "”"}]
     - {t: ▽, type: trans}
     - {t: ▽, type: trans}
     - {t: ▽, type: trans}
-    - "-"
+    - {t: "-", s: "–"}
+    - {t: ▽, type: trans}
+    - {t: ▽, type: trans}
+  Se:
+    - [{t: ▽, type: trans}, {t: "’", s: "”"}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, "Ä", {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}]
+    - [{t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}]
+    - ["”", {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, "Å", {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, "”"]
+    - {t: ▽, type: trans}
+    - {t: ▽, type: trans}
+    - {t: ▽, type: trans}
+    - {t: "-", s: "–"}
     - {t: ▽, type: trans}
     - "Ö"
   Fr:
-    - [{t: ▽, type: trans}, '"', {t: ▽, type: trans}, {t: ▽, type: trans}, "’", {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, "É", {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}]
+    - [{t: ▽, type: trans}, "Ç", {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, "É", {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}]
     - [{t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, $$mdi:star$$, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}]
     - [{t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, "À", {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}]
-    - "Ç"
+    - "’"
     - {t: ▽, type: trans}
     - {t: ▽, type: trans}
-    - "-"
+    - {t: "-", s: "–"}
     - {t: ▽, type: trans}
     - {t: ▽, type: trans}
   FrMagic:
