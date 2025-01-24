@@ -97,6 +97,74 @@ enum custom_keycodes {
 #include "sm_td.h"
 #include "features/custom_shift_keys.h"
 
+bool is_shift_pressed(void) {
+    const uint8_t saved_mods = get_mods();
+#ifndef NO_ACTION_ONESHOT
+    const uint8_t mods = saved_mods | get_weak_mods() | get_oneshot_mods();
+#else
+    const uint8_t mods = saved_mods | get_weak_mods();
+#endif  // NO_ACTION_ONESHOT
+#if CUSTOM_SHIFT_KEYS_LAYER_MASK != 0
+    const uint8_t layer = read_source_layers_cache(record->event.key);
+#endif  // CUSTOM_SHIFT_KEYS_LAYER_MASK
+    if ((mods & MOD_MASK_SHIFT) != 0  // Shift is held.
+#if CUSTOM_SHIFT_KEYS_NEGMODS != 0
+        // Nothing in CUSTOM_SHIFT_KEYS_NEGMODS is held.
+        && (mods & (CUSTOM_SHIFT_KEYS_NEGMODS)) == 0
+#endif  // CUSTOM_SHIFT_KEYS_NEGMODS != 0
+#if CUSTOM_SHIFT_KEYS_LAYER_MASK != 0
+        // Pressed key is on a layer appearing in the layer mask.
+        && ((1 << layer) & (CUSTOM_SHIFT_KEYS_LAYER_MASK)) != 0
+#endif  // CUSTOM_SHIFT_KEYS_LAYER_MASK
+    ) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+void send_unshifted_string(const char *string) {
+    // Send a string without changing capitalisation.
+    const uint8_t saved_mods = get_mods();
+#ifndef NO_ACTION_ONESHOT
+    const uint8_t mods = saved_mods | get_weak_mods() | get_oneshot_mods();
+#else
+    const uint8_t mods = saved_mods | get_weak_mods();
+#endif  // NO_ACTION_ONESHOT
+
+    // cancel shift mods, press the key, and restore mods.
+    del_weak_mods(MOD_MASK_SHIFT);
+#ifndef NO_ACTION_ONESHOT
+    del_oneshot_mods(MOD_MASK_SHIFT);
+#endif  // NO_ACTION_ONESHOT
+    unregister_mods(MOD_MASK_SHIFT);
+    set_oneshot_mods(MOD_BIT(KC_LSFT));
+    SEND_STRING(string);
+    set_mods(mods);
+}
+
+
+bool caps_word_press_user(uint16_t keycode) {
+    switch (keycode) {
+        // Keycodes that continue Caps Word, with shift applied.
+        case KC_A ... KC_Z:
+        case KC_MINS:
+        case DI_QU:
+        case DI_TH:
+            add_weak_mods(MOD_BIT(KC_LSFT));  // Apply shift to next key.
+            return true;
+
+        // Keycodes that continue Caps Word, without shifting.
+        case KC_1 ... KC_0:
+        case KC_BSPC:
+        case KC_DEL:
+        case KC_UNDS:
+            return true;
+
+        default:
+            return false;  // Deactivate Caps Word.
+    }
+}
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     if (!process_smtd(keycode, record)) {
@@ -106,23 +174,23 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         return false;
     }
     bool shift_pressed = false;
-
+    const uint8_t saved_mods = get_mods();
+    const uint8_t mods = saved_mods | get_weak_mods();
+    if ((mods & MOD_MASK_SHIFT) != 0) {  // Shift in held
+        shift_pressed = true;
+    }
     switch (keycode) {
-        case KC_LSFT:
-        case KC_RSFT:
-            shift_pressed = true;
-            break;
         case DI_QU:
             if (record->event.pressed) {
                 if (is_caps_word_on()) {
                     SEND_STRING("QU");
-                } else if (shift_pressed) {
-                    SEND_STRING("Qu");
+                } else if (is_shift_pressed()) {
+                    send_unshifted_string("qu");
                 } else {
                     SEND_STRING("qu");
                 }
             } else {
-                // when keycode QMKBEST is released
+                // key release
             }
             break;
         case CKC_OU:
@@ -139,9 +207,15 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             break;
         case DI_TH:
             if (record->event.pressed) {
-                SEND_STRING("th");
+                if (is_caps_word_on()) {
+                    SEND_STRING("TH");
+                } else if (is_shift_pressed()) {
+                    send_unshifted_string("Th");
+                } else {
+                    SEND_STRING("th");
+                }
             } else {
-                // when keycode QMKBEST is released
+                // key release
             }
             break;
     }
@@ -183,6 +257,7 @@ tap_dance_action_t tap_dance_actions[] = {
 #define LT_R LT(L_NUMSYM, KC_R)
 #define CK_NBSP RALT(KC_SPC)
 #define CK_NNBS S(RALT(KC_SPC))
+#define MT_U LALT_T(KC_U)
 
  const custom_shift_key_t custom_shift_keys[] = {
   {KC_DOT , KC_EXLM}, // Shift . is !
@@ -224,7 +299,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [L_BASE] = LAYOUT_split_3x6_3(
         KC_Z,    US_QUOT, KC_B,    KC_H,    KC_G,    US_DQUO,                                      US_AT,   KC_DOT,  KC_SLSH, KC_J,    KC_X,    KC_Q,
         KC_LPRN, KC_C,    KC_S,    CKC_N,   CKC_T,   KC_K,                                         KC_COMM, CKC_A,   CKC_E,   KC_I,    KC_M,    KC_RPRN,
-        KC_LBRC, KC_P,    KC_F,    KC_L,    KC_D,    KC_V,                                         KC_EQL,  KC_U,    KC_O,    KC_Y,    KC_W,    KC_RBRC,
+        KC_LBRC, KC_P,    KC_F,    KC_L,    KC_D,    KC_V,                                         KC_EQL,  MT_U,    KC_O,    KC_Y,    KC_W,    KC_RBRC,
                                             DI_TH,   LT_R,  KC_ESC,                       KC_UNDS, LT_SPC,  DI_QU
     ),
      /*
