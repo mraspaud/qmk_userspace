@@ -80,7 +80,7 @@ const uint32_t PROGMEM unicode_map[] = {
 #define MAGICFR OSL(L_FRSYM)
 
 enum custom_keycodes {
-    DI_QU,
+    DI_QU = SAFE_RANGE,
     CKC_OU,
     DI_TH,
 };
@@ -160,12 +160,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     if (!process_custom_shift_keys(keycode, record)) {
         return false;
     }
-    bool shift_pressed = false;
-    const uint8_t saved_mods = get_mods();
-    const uint8_t mods = saved_mods | get_weak_mods();
-    if ((mods & MOD_MASK_SHIFT) != 0) {  // Shift in held
-        shift_pressed = true;
-    }
+
     switch (keycode) {
         case DI_QU:
             if (record->event.pressed) {
@@ -182,7 +177,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             break;
         case CKC_OU:
             if (record->event.pressed) {
-                if (shift_pressed) {
+                if (is_shift_pressed()) {
                     SEND_STRING("O");
                 } else {
                     SEND_STRING("o");
