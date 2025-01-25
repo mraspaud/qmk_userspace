@@ -4,8 +4,8 @@ layout:
 layers:
   Base:
     - [Z, {t: "'", s: "’"}, B, H, G, {t: '"', s: "`"}, {t: "@", s: "?"}, {t: ".", s: "!"}, {t: "/", s: "*"}, J, X, Q]
-    - [{t: "(", s: "{"}, C, S, {h: $$mdi:apple-keyboard-shift$$, t: N}, {h: $$mdi:apple-keyboard-control$$, t: T}, K, {t: ",", s: ":"}, {h: $$mdi:apple-keyboard-control$$, t: A}, {h: $$mdi:apple-keyboard-shift$$, t: E}, I, M, {t: ")", s: "}"}]
-    - [{t: "[", s: "<"}, P, F, L, D, V, {t: "=", s: "#"}, U, O, Y, W, {t: "]", s: ">"}]
+    - [{t: "(", s: "["}, C, S, {h: $$mdi:apple-keyboard-shift$$, t: N}, {h: $$mdi:apple-keyboard-control$$, t: T}, K, {t: ",", s: ":"}, {h: $$mdi:apple-keyboard-control$$, t: A}, {h: $$mdi:apple-keyboard-shift$$, t: E}, I, M, {t: ")", s: "]"}]
+    - [{t: "{", s: "<"}, P, F, L, D, V, {t: "=", s: "#"}, U, O, Y, W, {t: "}", s: ">"}]
     - "QU"
     - {h: SYM,  t: R}
     - {h: $$mdi:apple-keyboard-option$$, t: $$mdi:keyboard-esc$$}
@@ -23,7 +23,7 @@ layers:
     - {t: NAV, type: ghost}
     - {t: ▽, type: trans}
   Sym:
-    - ["\\", "'", "|", "&", "%", {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, "~", "!", "°"]
+    - ["\\", "'", "|", "&", "%", {t: ▽, type: trans}, "±", {t: ▽, type: trans}, {t: ▽, type: trans}, "~", "!", "°"]
     - [{t: ▽, type: trans}, 6, 4, 0, 2, "-", {t: ▽, type: trans}, 3, 1, 5, 7, {t: ▽, type: trans}]
     - [{t: ▽, type: trans}, "€", "^", "$", 8, "+", {t: ▽, type: trans}, 9, ";", "…", "?", {t: ▽, type: trans}]
     - {t: ▽, type: trans}
@@ -55,7 +55,7 @@ layers:
   Fr:
     - [{t: ▽, type: trans}, "Ç", {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, "É", {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}]
     - [{t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, $$mdi:star$$, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}]
-    - [{t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, "À", {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}]
+    - ["«", {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, "À", {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, "»"]
     - {t: ▽, type: trans}
     - {t: ▽, type: trans}
     - {t: ▽, type: trans}
@@ -69,13 +69,12 @@ layers:
     - {t: ▽, type: trans}
     - {t: ▽, type: trans}
     - {t: ▽, type: trans}
-    - "·"
+    - {t: ▽, type: trans}
     - {t: ▽, type: trans}
     - {t: ▽, type: trans}
 combos:
   - {p: [6, 7], k: $$mdi:monitor-screenshot$$, l: ["Base"]}
   - {p: [5, 6], k: BOOT, a: top, l: ["Base"]}
-  - {p: [6, 8], k: SE, a: top, l: ["Base"]}
   - {p: [19, 21], k: $$mdi:keyboard-return$$, a: top, l: ["Base"]}
   - {p: [12, 23], k: Caps Wrd, a: top, l: ["Base"]}
   - {p: [1, 2], k: $$mdi:keyboard-tab-reverse$$, l: ["Base"]}

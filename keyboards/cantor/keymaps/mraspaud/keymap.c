@@ -358,7 +358,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       *                       └───┘   └───┘
       */
     [L_NUMSYM] = LAYOUT_split_3x6_3(
-        KC_BSLS, US_QUOT, KC_PIPE, KC_AMPR, KC_PERC, _______,                                      _______, _______, KC_SLSH, US_TILD, KC_EXLM, US_DEG,
+        KC_BSLS, US_QUOT, KC_PIPE, KC_AMPR, KC_PERC, _______,                                      KC_PSMS, _______, KC_SLSH, US_TILD, KC_EXLM, US_DEG,
         _______, KC_6,    KC_4,    KC_0,    KC_2,    U_MINUS,                                      _______, KC_3,    KC_1,    KC_5,    KC_7,    _______,
         _______, US_EURO, US_CIRC, KC_DLR,  KC_8,    KC_PLUS,                                      KC_EQL,  KC_9,    US_SCLN, U_ELL,   KC_QUES, _______,
                                             _______, _______, _______,                    KC_UNDS, CK_NNBS, QK_LLCK
