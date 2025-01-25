@@ -25,7 +25,7 @@ layers:
   Sym:
     - ["\\", "'", "|", "&", "%", {t: ▽, type: trans}, "±", {t: ▽, type: trans}, {t: ▽, type: trans}, "~", "!", "°"]
     - [{t: ▽, type: trans}, 6, 4, 0, 2, "-", {t: ▽, type: trans}, 3, 1, 5, 7, {t: ▽, type: trans}]
-    - [{t: ▽, type: trans}, "€", "^", "$", 8, "+", {t: ▽, type: trans}, 9, ";", "…", "?", {t: ▽, type: trans}]
+    - [{t: ▽, type: trans}, "€", "^", "$", 8, "+", {t: ▽, type: trans}, 9, ";", "…", "µ", {t: ▽, type: trans}]
     - {t: ▽, type: trans}
     - {t: SYM, type: ghost}
     - {t: ▽, type: trans}
@@ -64,7 +64,7 @@ layers:
     - "’"
   FrMagic:
     - [{t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, "´", {t: ▽, type: trans}, "¨", {t: ▽, type: trans}, "·", "È", {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}]
-    - ["«", "¸", "~", "`", "^", K, {t: ▽, type: trans}, Â, Ê, Î, µ, "»"]
+    - [{t: ▽, type: trans}, "¸", "~", "`", "^", K, {t: ▽, type: trans}, Â, Ê, Î, {t: ▽, type: trans}, {t: ▽, type: trans}]
     - [{t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, {t: ▽, type: trans}, "Û", "Ô", "Où", "Œ", {t: ▽, type: trans}]
     - {t: ▽, type: trans}
     - {t: ▽, type: trans}

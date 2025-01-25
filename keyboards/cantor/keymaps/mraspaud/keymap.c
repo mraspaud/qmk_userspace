@@ -234,6 +234,7 @@ tap_dance_action_t tap_dance_actions[] = {
 #define MT_N LSFT_T(KC_N)
 #define MT_A RCTL_T(KC_A)
 #define MT_T LCTL_T(KC_T)
+#define MT_DGRV LSFT_T(US_DGRV)
 
  const custom_shift_key_t custom_shift_keys[] = {
   {KC_DOT , KC_EXLM}, // Shift . is !
@@ -355,7 +356,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [L_NUMSYM] = LAYOUT_split_3x6_3(
         KC_BSLS, US_QUOT, KC_PIPE, KC_AMPR, KC_PERC, _______,                                      KC_PSMS, _______, KC_SLSH, US_TILD, KC_EXLM, US_DEG,
         _______, KC_6,    KC_4,    KC_0,    KC_2,    U_MINUS,                                      _______, KC_3,    KC_1,    KC_5,    KC_7,    _______,
-        _______, US_EURO, US_CIRC, KC_DLR,  KC_8,    KC_PLUS,                                      KC_EQL,  KC_9,    US_SCLN, U_ELL,   KC_QUES, _______,
+        _______, US_EURO, US_CIRC, KC_DLR,  KC_8,    KC_PLUS,                                      KC_EQL,  KC_9,    US_SCLN, U_ELL,   US_MICR, _______,
                                             _______, _______, _______,                    KC_UNDS, CK_NNBS, QK_LLCK
     ),
     [L_NAV] = LAYOUT_split_3x6_3(
@@ -380,8 +381,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       */
     [L_FRSYM] = LAYOUT_split_3x6_3(
         _______, _______, _______, US_ACUT, _______, US_DIAE,                                      _______, RALT(KC_X), U_EGRV,  _______, _______, _______,
-        US_LDAQ, US_CEDL, US_DTIL, US_DGRV, US_DCIR, KC_K,                                         _______, U_ACRC,  U_ECRC,  U_ICRC,  US_MICR, US_RDAQ,
-        _______, _______, _______, _______, _______, _______,                                      _______, U_UCRC,  U_OCRC,  CKC_OU,  US_OE, _______,
+        _______, US_CEDL, US_DTIL, MT_DGRV, US_DCIR, KC_K,                                         _______, U_ACRC,  U_ECRC,  U_ICRC,  _______, _______,
+        _______, _______, _______, _______, _______, _______,                                      _______, U_UCRC,  U_OCRC,  CKC_OU,  US_OE,   _______,
                                             _______, _______, _______,                    _______, _______,   _______
     ),
       /*
