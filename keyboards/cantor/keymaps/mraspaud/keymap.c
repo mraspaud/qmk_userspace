@@ -80,21 +80,11 @@ const uint32_t PROGMEM unicode_map[] = {
 #define MAGICFR OSL(L_FRSYM)
 
 enum custom_keycodes {
-    SMTD_KEYCODES_BEGIN = SAFE_RANGE,
-    CKC_N,
-    CKC_T,
-    CKC_A,
-    CKC_E,
-    CKC_SPC,
-    CKC_R,
-    CKC_UND,
-    SMTD_KEYCODES_END,
     DI_QU,
     CKC_OU,
     DI_TH,
 };
 
-#include "sm_td.h"
 #include "features/custom_shift_keys.h"
 
 bool is_shift_pressed(void) {
@@ -167,9 +157,6 @@ bool caps_word_press_user(uint16_t keycode) {
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    if (!process_smtd(keycode, record)) {
-        return false;
-    }
     if (!process_custom_shift_keys(keycode, record)) {
         return false;
     }
@@ -223,17 +210,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     return true;
 }
 
-
-void on_smtd_action(uint16_t keycode, smtd_action action, uint8_t tap_count) {
-    switch (keycode) {
-        SMTD_MT(CKC_N, KC_N, KC_LEFT_SHIFT)
-        SMTD_MT(CKC_T, KC_T, KC_LEFT_CTRL)
-        SMTD_MT(CKC_A, KC_A, KC_RIGHT_CTRL)
-        SMTD_MT(CKC_E, KC_E, KC_RIGHT_SHIFT)
-        SMTD_LT(CKC_SPC, KC_SPACE, L_NAV)
-        SMTD_LT(CKC_R, KC_R, L_NUMSYM)
-    }
-}
 
 // Tap Dance declarations
 enum {
