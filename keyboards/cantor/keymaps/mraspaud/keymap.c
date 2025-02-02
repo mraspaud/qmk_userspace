@@ -254,6 +254,7 @@ tap_dance_action_t tap_dance_actions[] = {
   {US_RDAQ, US_RDQU}, // Shift « is “
   {US_LDAQ, US_LDQU}, // Shift » is ”
   {CK_NNBS, CK_NBSP},
+  {KC_BSPC, KC_DELETE},
 };
 uint8_t NUM_CUSTOM_SHIFT_KEYS =
     sizeof(custom_shift_keys) / sizeof(custom_shift_key_t);
@@ -276,7 +277,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [L_BASE] = LAYOUT_split_3x6_3(
         KC_Z,    KC_W,    KC_B,    KC_H,    KC_G,    US_DQUO,                                      US_AT,   KC_DOT,  KC_SLSH, KC_J,    KC_X,    KC_Q,
         KC_LPRN, KC_C,    KC_S,    MT_N,    MT_T,    KC_K,                                         KC_COMM, MT_A,    MT_E,    KC_I,    KC_M,    KC_RPRN,
-        KC_LCBR, KC_P,    KC_F,    KC_L,    KC_D,    KC_V,                                         KC_EQL,  MT_U,    KC_O,    KC_Y,    DI_TH,    KC_RCBR,
+        KC_LCBR, KC_P,    KC_F,    KC_L,    KC_D,    KC_V,                                         KC_EQL,  MT_U,    KC_O,    KC_Y,    DI_TH,   KC_RCBR,
                                             DI_QU,   LT_R,  MT_ESC,                       KC_UNDS, LT_SPC,  US_QUOT
     ),
      /*
@@ -423,12 +424,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 
 const uint16_t PROGMEM combo_tab[] = {KC_B, KC_H, COMBO_END};
-const uint16_t PROGMEM combo_stab[] = {US_RSQU, KC_B, COMBO_END};
 const uint16_t PROGMEM combo_backspace[] = {KC_SLASH, KC_J, COMBO_END};
 const uint16_t PROGMEM combo_backspace_se[] = {SE_ADIA, KC_J, COMBO_END};
 const uint16_t PROGMEM combo_backspace_fr[] = {US_EACU, KC_J, COMBO_END};
 const uint16_t PROGMEM combo_backspace_sym[] = {KC_SLSH, US_TILD, COMBO_END};
-const uint16_t PROGMEM combo_delete[] = { KC_J, KC_X, COMBO_END};
 const uint16_t PROGMEM combo_prtscr[] = {US_AT, KC_DOT, COMBO_END};
 const uint16_t PROGMEM combo_capsword[] = {KC_LPRN, KC_RPRN, COMBO_END};
 const uint16_t PROGMEM combo_bootloader[] = {US_DQUO, US_AT, COMBO_END};
@@ -443,12 +442,10 @@ const uint16_t PROGMEM combo_fn[] = {LT_SPC, LT_R, COMBO_END};
 const uint16_t PROGMEM combo_base[] = {KC_F, KC_L, KC_D, COMBO_END};
 combo_t key_combos[] = {
     COMBO(combo_tab, KC_TAB),
-    COMBO(combo_stab, S(KC_TAB)),
     COMBO(combo_backspace, KC_BSPC),
     COMBO(combo_backspace_se, KC_BSPC),
     COMBO(combo_backspace_fr, KC_BSPC),
     COMBO(combo_backspace_sym, KC_BSPC),
-    COMBO(combo_delete, KC_DELETE),
     COMBO(combo_prtscr, KC_PRINT_SCREEN),
     COMBO(combo_capsword, CW_TOGG),
     COMBO(combo_bootloader, QK_BOOT),
