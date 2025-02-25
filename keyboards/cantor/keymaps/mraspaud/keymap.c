@@ -162,6 +162,18 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     }
 
     switch (keycode) {
+        case LCTL_T(KC_LPRN):
+            if (record->tap.count && record->event.pressed) {
+                tap_code16(KC_LPRN); // Send KC_DQUO on tap
+                return false;        // Return false to ignore further processing of key
+            }
+            break;
+        case RCTL_T(KC_RPRN):
+            if (record->tap.count && record->event.pressed) {
+                tap_code16(KC_RPRN); // Send KC_DQUO on tap
+                return false;        // Return false to ignore further processing of key
+            }
+            break;
         case DI_QU:
             if (record->event.pressed) {
                 if (is_caps_word_on()) {
@@ -227,13 +239,12 @@ tap_dance_action_t tap_dance_actions[] = {
 #define LT_SPC LT(L_NAV, KC_SPC)
 #define LT_R LT(L_NUMSYM, KC_R)
 #define MT_ESC LALT_T(KC_ESC)
+#define MT_LPRN LCTL_T(KC_LPRN)
+#define MT_RPRN RCTL_T(KC_RPRN)
 #define CK_NBSP RALT(KC_SPC)
 #define CK_NNBS S(RALT(KC_SPC))
-#define MT_U LALT_T(KC_U)
 #define MT_E RSFT_T(KC_E)
 #define MT_N LSFT_T(KC_N)
-#define MT_A RCTL_T(KC_A)
-#define MT_T LCTL_T(KC_T)
 #define MT_DGRV LSFT_T(US_DGRV)
 
  const custom_shift_key_t custom_shift_keys[] = {
@@ -241,10 +252,10 @@ tap_dance_action_t tap_dance_actions[] = {
   {KC_COMM, KC_COLN}, // Shift , is :
   {US_DQUO, US_GRV }, // Shift " is `
   {KC_UNDS, KC_MINS }, // Shift _ is -
-  {KC_LPRN, KC_LBRC }, // Shift ( is [
-  {KC_RPRN, KC_RBRC }, // Shift ) is ]
-  {KC_LCBR, KC_LABK }, // Shift { is <
-  {KC_RCBR, KC_RABK }, // Shift } is >
+  {KC_LBRC, KC_LCBR }, // Shift [ is {
+  {KC_RBRC, KC_RCBR }, // Shift ] is }
+  {MT_LPRN, KC_LABK }, // Shift ( is <
+  {MT_RPRN, KC_RABK }, // Shift } is >
   {KC_SLSH, US_ASTR }, // Shift / is *
   {US_QUOT, US_RSQU }, // Shift ' is ’
   {US_AT, KC_QUES}, // Shift ! is ?
@@ -276,8 +287,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       */
     [L_BASE] = LAYOUT_split_3x6_3(
         KC_Z,    KC_W,    KC_B,    KC_H,    KC_G,    US_DQUO,                                      US_AT,   KC_DOT,  KC_SLSH, KC_J,    KC_X,    KC_Q,
-        KC_LPRN, KC_C,    KC_S,    MT_N,    MT_T,    KC_K,                                         KC_COMM, MT_A,    MT_E,    KC_I,    KC_M,    KC_RPRN,
-        KC_LCBR, KC_P,    KC_F,    KC_L,    KC_D,    KC_V,                                         KC_EQL,  MT_U,    KC_O,    KC_Y,    DI_TH,   KC_RCBR,
+        MT_LPRN, KC_C,    KC_S,    MT_N,    KC_T,    KC_K,                                         KC_COMM, KC_A,    MT_E,    KC_I,    KC_M,    MT_RPRN,
+        KC_LBRC, KC_P,    KC_F,    KC_L,    KC_D,    KC_V,                                         KC_EQL,  KC_U,    KC_O,    KC_Y,    DI_TH,   KC_RBRC,
                                             DI_QU,   LT_R,  MT_ESC,                       KC_UNDS, LT_SPC,  US_QUOT
     ),
      /*
@@ -357,7 +368,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [L_NUMSYM] = LAYOUT_split_3x6_3(
         KC_BSLS, US_QUOT, KC_PIPE, KC_AMPR, KC_PERC, _______,                                      KC_PSMS, _______, KC_SLSH, US_TILD, US_MICR, US_DEG,
         _______, KC_6,    KC_4,    KC_0,    KC_2,    U_MINUS,                                      _______, KC_3,    KC_1,    KC_5,    KC_7,    _______,
-        _______, US_EURO, US_CIRC, KC_DLR,  KC_8,    KC_PLUS,                                      KC_EQL,  KC_9,    US_SCLN, U_ELL,   US_THRN, _______,
+        KC_LBRC, US_EURO, US_CIRC, KC_DLR,  KC_8,    KC_PLUS,                                      KC_EQL,  KC_9,    US_SCLN, U_ELL,   US_THRN, KC_RBRC,
                                             _______, _______, _______,                    KC_UNDS, CK_NNBS, QK_LLCK
     ),
        /*
@@ -432,7 +443,7 @@ const uint16_t PROGMEM combo_prtscr[] = {US_AT, KC_DOT, COMBO_END};
 const uint16_t PROGMEM combo_capsword[] = {KC_LPRN, KC_RPRN, COMBO_END};
 const uint16_t PROGMEM combo_bootloader[] = {US_DQUO, US_AT, COMBO_END};
 const uint16_t PROGMEM combo_sleep[] = {KC_COMM, KC_EQL, COMBO_END};
-const uint16_t PROGMEM combo_enter[] = {MT_A, KC_I, COMBO_END};
+const uint16_t PROGMEM combo_enter[] = {KC_A, KC_I, COMBO_END};
 const uint16_t PROGMEM combo_q[] = {KC_Y, KC_W, COMBO_END};
 const uint16_t PROGMEM combo_q_se[] = {US_ODIA, KC_W, COMBO_END};
 const uint16_t PROGMEM combo_en[] = {MT_N, MT_E, COMBO_END};
