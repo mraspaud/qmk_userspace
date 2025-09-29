@@ -1,6 +1,5 @@
 // Copyright 2025 Martin Raspaud (@mraspaud)
 // SPDX-License-Identifier: GPL-2.0
-
 #include QMK_KEYBOARD_H
 #include "keymap_extras/keymap_us_international_linux.h"
 static bool q_pending = false;
@@ -252,6 +251,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case KC_I:
         case KC_O:
         case KC_Y:
+        case US_EACU:
+        case U_ACRC:
+        case U_ECRC:
+        case U_EGRV:
+        case U_ICRC:
             if (record->event.pressed) {
                 if (q_pending) {
                     q_pending = false;
@@ -262,6 +266,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                     }
                 }
             }
+            break;
+        case MAGICFR:
             break;
         default:
             q_pending = false;
@@ -475,8 +481,6 @@ const uint16_t PROGMEM combo_capsword[] = {MT_LPRN, MT_RPRN, COMBO_END};
 const uint16_t PROGMEM combo_bootloader[] = {US_DQUO, US_AT, COMBO_END};
 const uint16_t PROGMEM combo_sleep[] = {KC_COMM, KC_EQL, COMBO_END};
 const uint16_t PROGMEM combo_enter[] = {KC_A, KC_I, COMBO_END};
-const uint16_t PROGMEM combo_q[] = {KC_Y, KC_W, COMBO_END};
-const uint16_t PROGMEM combo_q_se[] = {US_ODIA, KC_W, COMBO_END};
 const uint16_t PROGMEM combo_en[] = {MT_N, MT_E, COMBO_END};
 const uint16_t PROGMEM combo_th[] = {DI_TH, MT_E, COMBO_END};
 const uint16_t PROGMEM combo_se[] = {KC_S, MT_E, COMBO_END};
@@ -494,8 +498,6 @@ combo_t key_combos[] = {
     COMBO(combo_bootloader, QK_BOOT),
     COMBO(combo_sleep, KC_SYSTEM_SLEEP),
     COMBO(combo_enter, KC_ENT),
-    COMBO(combo_q, KC_Q),
-    COMBO(combo_q_se, KC_Q),
     COMBO(combo_fr, TO(L_FR)),
     COMBO(combo_se, TO(L_SE)),
     COMBO(combo_en, TO(L_EN)),
