@@ -2,7 +2,8 @@
 // SPDX-License-Identifier: GPL-2.0
 #include QMK_KEYBOARD_H
 #include "keymap_extras/keymap_us_international_linux.h"
-static bool q_pending = false;
+#define QU_TIMEOUT 1000
+static uint16_t q_timer = 0;
 // Layers declarations
 enum {
     L_BASE = 0,
@@ -80,8 +81,7 @@ const uint32_t PROGMEM unicode_map[] = {
 #define MAGICFR OSL(L_FRSYM)
 
 enum custom_keycodes {
-    DI_QU = SAFE_RANGE,
-    CKC_OU,
+    CKC_OU = SAFE_RANGE,
     DI_TH,
 };
 
@@ -168,7 +168,6 @@ bool caps_word_press_user(uint16_t keycode) {
         // Keycodes that continue Caps Word, with shift applied.
         case KC_A ... KC_Z:
         case KC_MINS:
-        case DI_QU:
         case DI_TH:
             add_weak_mods(MOD_BIT(KC_LSFT));  // Apply shift to next key.
             return true;
@@ -186,6 +185,13 @@ bool caps_word_press_user(uint16_t keycode) {
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    // Check if the 'qu' timer is currently active
+    if (q_timer != 0) {
+        // If more time has passed than our timeout, cancel the 'qu' action
+        if (timer_elapsed(q_timer) > QU_TIMEOUT) {
+            q_timer = 0;
+        }
+    }
     if (!process_custom_shift_keys(keycode, record)) {
         return false;
     }
@@ -201,19 +207,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             if (record->tap.count && record->event.pressed) {
                 tap_code16(KC_RPRN); // Send KC_DQUO on tap
                 return false;        // Return false to ignore further processing of key
-            }
-            break;
-        case DI_QU:
-            if (record->event.pressed) {
-                if (is_caps_word_on()) {
-                    SEND_STRING("QU");
-                } else if (is_shift_pressed()) {
-                    send_unshifted_string("qu");
-                } else {
-                    SEND_STRING("qu");
-                }
-            } else {
-                // key release
             }
             break;
         case CKC_OU:
@@ -243,7 +236,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             break;
         case KC_Q:
             if (record->event.pressed) {
-                q_pending = true;
+                q_timer = timer_read();
             }
             break;
         case KC_A:
@@ -257,8 +250,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case U_EGRV:
         case U_ICRC:
             if (record->event.pressed) {
-                if (q_pending) {
-                    q_pending = false;
+                if (q_timer != 0) {
+                    q_timer = 0;
                     if (is_caps_word_on()) {
                         SEND_STRING("U");
                     } else {
@@ -270,7 +263,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case MAGICFR:
             break;
         default:
-            q_pending = false;
+            q_timer = 0;
             break;
     }
     // your code here
@@ -317,7 +310,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       *                       └───┘   └───┘
       */
     [L_BASE] = LAYOUT_split_3x6_3(
-        KC_Z,    KC_B,    KC_W,    KC_H,    KC_G,    US_DQUO,                                      US_AT,   KC_DOT,  KC_SLSH, KC_J,    KC_X,    DI_QU,
+        KC_Z,    KC_B,    KC_W,    KC_H,    KC_G,    US_DQUO,                                      US_AT,   KC_DOT,  KC_SLSH, KC_J,    KC_X,    US_AT,
         MT_LPRN, KC_S,    KC_C,    MT_N,    KC_T,    KC_K,                                         KC_COMM, KC_A,    MT_E,    KC_I,    KC_M,    MT_RPRN,
         KC_LBRC, KC_F,    KC_P,    KC_L,    KC_D,    KC_V,                                         KC_EQL,  KC_U,    KC_O,    KC_Y,    DI_TH,   KC_RBRC,
                                             KC_Q,    LT_R,  MT_ESC,                       KC_UNDS, LT_SPC,  US_QUOT
