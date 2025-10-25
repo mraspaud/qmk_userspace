@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: GPL-2.0
 #include QMK_KEYBOARD_H
 #include "keymap_extras/keymap_us_international_linux.h"
-#define QU_TIMEOUT 1000
+#define QU_TIMEOUT 500
 static uint16_t q_timer = 0;
 // Layers declarations
 enum {
@@ -310,7 +310,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       *                       └───┘   └───┘
       */
     [L_BASE] = LAYOUT_split_3x6_3(
-        KC_Z,    KC_B,    KC_W,    KC_H,    KC_G,    US_DQUO,                                      US_AT,   KC_DOT,  KC_SLSH, KC_J,    KC_X,    US_AT,
+        KC_Z,    KC_B,    KC_W,    KC_H,    KC_G,    US_DQUO,                                      QK_REP, KC_DOT,  KC_SLSH, KC_J,    KC_X,    US_AT,
         MT_LPRN, KC_S,    KC_C,    MT_N,    KC_T,    KC_K,                                         KC_COMM, KC_A,    MT_E,    KC_I,    KC_M,    MT_RPRN,
         KC_LBRC, KC_F,    KC_P,    KC_L,    KC_D,    KC_V,                                         KC_EQL,  KC_U,    KC_O,    KC_Y,    DI_TH,   KC_RBRC,
                                             KC_Q,    LT_R,  MT_ESC,                       KC_UNDS, LT_SPC,  US_QUOT
@@ -333,12 +333,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, _______, _______, _______, _______, _______,                                      _______, _______, _______, _______, _______,  _______,
         _______, _______, _______, _______, _______, _______,                                      _______, _______, _______, _______, _______,  _______,
         US_LSQU, _______, _______, _______, _______, _______,                                      _______, _______, _______, _______, _______,  US_RSQU,
-                                            _______, _______, _______,                   U_HYPHEN, _______, US_RSQU
-    ),
-    [L_TH] = LAYOUT_split_3x6_3(
-        _______, _______, _______, _______, _______, _______,                                      _______, _______, _______, _______, _______,  _______,
-        _______, _______, _______, _______, _______, _______,                                      _______, _______, _______, _______, _______,  _______,
-        US_LSQU, _______, _______, _______, _______, _______,                                      _______, _______, _______, _______, US_THRN,  US_RSQU,
                                             _______, _______, _______,                   U_HYPHEN, _______, US_RSQU
     ),
       /*
@@ -471,11 +465,10 @@ const uint16_t PROGMEM combo_backspace_fr[] = {US_EACU, KC_J, COMBO_END};
 const uint16_t PROGMEM combo_backspace_sym[] = {KC_SLSH, US_TILD, COMBO_END};
 const uint16_t PROGMEM combo_prtscr[] = {US_AT, KC_DOT, COMBO_END};
 const uint16_t PROGMEM combo_capsword[] = {MT_LPRN, MT_RPRN, COMBO_END};
-const uint16_t PROGMEM combo_bootloader[] = {US_DQUO, US_AT, COMBO_END};
+const uint16_t PROGMEM combo_bootloader[] = {US_DQUO, QK_REP, COMBO_END};
 const uint16_t PROGMEM combo_sleep[] = {KC_COMM, KC_EQL, COMBO_END};
 const uint16_t PROGMEM combo_enter[] = {KC_A, KC_I, COMBO_END};
 const uint16_t PROGMEM combo_en[] = {MT_N, MT_E, COMBO_END};
-const uint16_t PROGMEM combo_th[] = {DI_TH, MT_E, COMBO_END};
 const uint16_t PROGMEM combo_se[] = {KC_S, MT_E, COMBO_END};
 const uint16_t PROGMEM combo_fr[] = {KC_F, LT_R, COMBO_END};
 const uint16_t PROGMEM combo_fn[] = {LT_SPC, LT_R, COMBO_END};
@@ -494,7 +487,6 @@ combo_t key_combos[] = {
     COMBO(combo_fr, TO(L_FR)),
     COMBO(combo_se, TO(L_SE)),
     COMBO(combo_en, TO(L_EN)),
-    COMBO(combo_th, TO(L_TH)),
     COMBO(combo_base, TO(L_BASE)),
     COMBO(combo_fn, OSL(L_FN)),
 };
