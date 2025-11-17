@@ -288,6 +288,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   {US_LSQU, US_LDQU}, // Shift ’ is ”
   {US_RDAQ, US_RDQU}, // Shift « is “
   {US_LDAQ, US_LDQU}, // Shift » is ”
+  {US_DEG, US_IQUE}, // Shift ° is ¿
   {CK_NNBS, CK_NBSP},
   {KC_BSPC, KC_DELETE},
 };
@@ -297,31 +298,31 @@ uint8_t NUM_CUSTOM_SHIFT_KEYS =
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      /*
       * ┌───┬───┬───┬───┬───┬───┐       ┌───┬───┬───┬───┬───┬───┐
-      * │ Z │ B │ W │ H │ G │ " │       │ @ │ . │ / │ J │ X │ Q │
+      * │ Z │ B │ W │ H │ G │ " │       │ * │ . │ / │ J │ X │ @ │
       * ├───┼───┼───┼───┼───┼───┤       ├───┼───┼───┼───┼───┼───┤
       * │ ( │ S │ C │ N │ T │ K │       │ , │ A │ E │ I │ M │ ) │
       * ├───┼───┼───┼───┼───┼───┤       ├───┼───┼───┼───┼───┼───┤
       * │ [ │ F │ P │ L │ D │ V │       │ = │ U │ O │ Y │ þ │ ] │
       * └───┴───┴───┴───┴───┴───┘       └───┴───┴───┴───┴───┴───┘
       *               ┌───┐                   ┌───┐
-      *               │Qu ├───┐           ┌───┤ ' │
+      *               │ Q ├───┐           ┌───┤ ' │
       *               └───┤ R ├───┐   ┌───┤   ├───┘
       *                   └───┤Esc│   │ _ ├───┘
       *                       └───┘   └───┘
       */
     [L_BASE] = LAYOUT_split_3x6_3(
-        KC_Z,    KC_B,    KC_W,    KC_H,    KC_G,    US_DQUO,                                      QK_REP, KC_DOT,  KC_SLSH, KC_J,    KC_X,    US_AT,
+        KC_Z,    KC_B,    KC_W,    KC_H,    KC_G,    US_DQUO,                                      US_ASTR, KC_DOT,  KC_SLSH, KC_J,    KC_X,    US_AT,
         MT_LPRN, KC_S,    KC_C,    MT_N,    KC_T,    KC_K,                                         KC_COMM, KC_A,    MT_E,    KC_I,    KC_M,    MT_RPRN,
         KC_LBRC, KC_F,    KC_P,    KC_L,    KC_D,    KC_V,                                         KC_EQL,  KC_U,    KC_O,    KC_Y,    DI_TH,   KC_RBRC,
                                             KC_Q,    LT_R,  MT_ESC,                       KC_UNDS, LT_SPC,  US_QUOT
     ),
      /*
       * ┌───┬───┬───┬───┬───┬───┐       ┌───┬───┬───┬───┬───┬───┐
-      * │ Z │ W │ B │ H │ G │ " │       │ @ │ . │ / │ J │ X │ Q │
+      * │ Z │ B │ W │ H │ G │ " │       │ @ │ . │ / │ J │ X │ Q │
       * ├───┼───┼───┼───┼───┼───┤       ├───┼───┼───┼───┼───┼───┤
-      * │ ( │ C │ S │ N │ T │ K │       │ , │ A │ E │ I │ M │ ) │
+      * │ ( │ S │ C │ N │ T │ K │       │ , │ A │ E │ I │ M │ ) │
       * ├───┼───┼───┼───┼───┼───┤       ├───┼───┼───┼───┼───┼───┤
-      * │ “ │ P │ F │ L │ D │ V │       │ = │ U │ O │ Y │ þ │ ” │
+      * │ “ │ F │ P │ L │ D │ V │       │ = │ U │ O │ Y │ þ │ ” │
       * └───┴───┴───┴───┴───┴───┘       └───┴───┴───┴───┴───┴───┘
       *               ┌───┐                   ┌───┐
       *               │Qu ├───┐           ┌───┤ ’ │
@@ -330,7 +331,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       *                       └───┘   └───┘
       */
     [L_EN] = LAYOUT_split_3x6_3(
-        _______, _______, _______, _______, _______, _______,                                      _______, _______, _______, _______, _______,  _______,
+        _______, _______, _______, _______, _______, _______,                                      US_RSQU, _______, _______, _______, _______,  _______,
         _______, _______, _______, _______, _______, _______,                                      _______, _______, _______, _______, _______,  _______,
         US_LSQU, _______, _______, _______, _______, _______,                                      _______, _______, _______, _______, _______,  US_RSQU,
                                             _______, _______, _______,                   U_HYPHEN, _______, US_RSQU
@@ -350,14 +351,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       *                       └───┘   └───┘
       */
     [L_SE] = LAYOUT_split_3x6_3(
-        _______, _______, _______, _______, _______, _______,                                      _______, _______, SE_ADIA, _______, _______,  _______,
+        _______, _______, _______, _______, _______, _______,                                      US_RSQU, _______, SE_ADIA, _______, _______,  _______,
         _______, _______, _______, _______, _______, _______,                                      _______, _______, _______, _______, _______,  _______,
         US_RDQU, _______, _______, _______, _______, _______,                                      US_ARNG, _______, _______, _______, SE_ODIA,  US_RDQU,
                                             _______, _______, _______,                   U_HYPHEN, _______, US_RSQU
     ),
       /*
       * ┌───┬───┬───┬───┬───┬───┐       ┌───┬───┬───┬───┬───┬───┐
-      * │ Z │ Ç │ B │ H │ G │ " │       │ @ │ . │ É │ J │ X │ Q │
+      * │ Z │ Ç │ B │ H │ G │ K │       │ @ │ . │ É │ J │ X │ Q │
       * ├───┼───┼───┼───┼───┼───┤       ├───┼───┼───┼───┼───┼───┤
       * │ ( │ C │ S │ N │ T │MgK│       │ , │ A │ E │ I │ M │ ) │
       * ├───┼───┼───┼───┼───┼───┤       ├───┼───┼───┼───┼───┼───┤
@@ -370,7 +371,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       *                       └───┘   └───┘
       */
     [L_FR] = LAYOUT_split_3x6_3(
-        _______, _______, US_CCED, _______, _______, _______,                                      _______, _______, US_EACU, _______, _______, _______,
+        _______, _______, US_CCED, _______, _______, KC_K,                                         US_RSQU, _______, US_EACU, _______, _______, _______,
         _______, _______, _______, _______, _______, MAGICFR,                                      _______, _______, _______, _______, _______, _______,
         US_LDAQ, _______, _______, _______, _______, _______,                                      U_AGRV,  _______, _______, _______, _______, US_RDAQ,
                                             _______, _______, _______,                   U_HYPHEN, _______, US_RSQU
@@ -459,13 +460,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 
 const uint16_t PROGMEM combo_tab[] = {KC_W, KC_H, COMBO_END};
+const uint16_t PROGMEM combo_qu[] = {KC_J, KC_X, COMBO_END};
 const uint16_t PROGMEM combo_backspace[] = {KC_SLASH, KC_J, COMBO_END};
 const uint16_t PROGMEM combo_backspace_se[] = {SE_ADIA, KC_J, COMBO_END};
 const uint16_t PROGMEM combo_backspace_fr[] = {US_EACU, KC_J, COMBO_END};
 const uint16_t PROGMEM combo_backspace_sym[] = {KC_SLSH, US_TILD, COMBO_END};
 const uint16_t PROGMEM combo_prtscr[] = {US_AT, KC_DOT, COMBO_END};
 const uint16_t PROGMEM combo_capsword[] = {MT_LPRN, MT_RPRN, COMBO_END};
-const uint16_t PROGMEM combo_bootloader[] = {US_DQUO, QK_REP, COMBO_END};
+const uint16_t PROGMEM combo_bootloader[] = {US_DQUO, US_ASTR, COMBO_END};
 const uint16_t PROGMEM combo_sleep[] = {KC_COMM, KC_EQL, COMBO_END};
 const uint16_t PROGMEM combo_enter[] = {KC_A, KC_I, COMBO_END};
 const uint16_t PROGMEM combo_en[] = {MT_N, MT_E, COMBO_END};
@@ -475,6 +477,7 @@ const uint16_t PROGMEM combo_fn[] = {LT_SPC, LT_R, COMBO_END};
 const uint16_t PROGMEM combo_base[] = {KC_P, KC_L, KC_D, COMBO_END};
 combo_t key_combos[] = {
     COMBO(combo_tab, KC_TAB),
+    COMBO(combo_qu, KC_Q),
     COMBO(combo_backspace, KC_BSPC),
     COMBO(combo_backspace_se, KC_BSPC),
     COMBO(combo_backspace_fr, KC_BSPC),
