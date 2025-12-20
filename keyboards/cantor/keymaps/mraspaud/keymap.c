@@ -130,7 +130,7 @@ tap_dance_action_t tap_dance_actions[] = {
 
 #include "features/custom_shift_keys.h"
 
-bool is_shift_pressed(void) {
+bool is_shift_pressed(keyrecord_t *record) {
     const uint8_t saved_mods = get_mods();
 #ifndef NO_ACTION_ONESHOT
     const uint8_t mods = saved_mods | get_weak_mods() | get_oneshot_mods();
@@ -225,7 +225,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             break;
         case CKC_OU:
             if (record->event.pressed) {
-                if (is_shift_pressed()) {
+                if (is_shift_pressed(record)) {
                     SEND_STRING("O");
                 } else {
                     SEND_STRING("o");
@@ -239,7 +239,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             if (record->event.pressed) {
                 if (is_caps_word_on()) {
                     SEND_STRING("TH");
-                } else if (is_shift_pressed()) {
+                } else if (is_shift_pressed(record)) {
                     send_unshifted_string("Th");
                 } else {
                     SEND_STRING("th");
