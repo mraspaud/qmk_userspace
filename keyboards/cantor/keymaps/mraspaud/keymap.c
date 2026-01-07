@@ -279,7 +279,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case MAGICFR:
             break;
         default:
-            q_timer = 0;
+            if (record->event.pressed) {
+                q_timer = 0;
+            }
             break;
     }
     // your code here
@@ -315,27 +317,27 @@ uint8_t NUM_CUSTOM_SHIFT_KEYS =
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      /*
       * ┌───┬───┬───┬───┬───┬───┐       ┌───┬───┬───┬───┬───┬───┐
-      * │ Z │ B │ W │ H │ G │ " │       │ : │ . │ / │ J │ X │ Q │
+      * │ Z │ B │ W │ H │ G │ " │       │ : │ . │ / │ J │ X │ @ │
       * ├───┼───┼───┼───┼───┼───┤       ├───┼───┼───┼───┼───┼───┤
       * │ ( │ S │ C │ N │ T │ K │       │ , │ A │ E │ I │ M │ ) │
       * ├───┼───┼───┼───┼───┼───┤       ├───┼───┼───┼───┼───┼───┤
       * │ [ │ F │ P │ L │ D │ V │       │ = │ U │ O │ Y │ þ │ ] │
       * └───┴───┴───┴───┴───┴───┘       └───┴───┴───┴───┴───┴───┘
       *               ┌───┐                   ┌───┐
-      *               │ # ├───┐           ┌───┤ ' │
+      *               │ Qu├───┐           ┌───┤ ' │
       *               └───┤ R ├───┐   ┌───┤   ├───┘
       *                   └───┤Esc│   │ _ ├───┘
       *                       └───┘   └───┘
       */
     [L_BASE] = LAYOUT_split_3x6_3(
-        KC_Z,    KC_B,    KC_W,    KC_H,    KC_G,    US_DQUO,                                      US_COLN, KC_DOT,  KC_SLSH, KC_J,    KC_X,    KC_Q,
+        KC_Z,    KC_B,    KC_W,    KC_H,    KC_G,    US_DQUO,                                      US_COLN, KC_DOT,  KC_SLSH, KC_J,    KC_X,    US_AT,
         MT_LPRN, KC_S,    KC_C,    MT_N,    KC_T,    KC_K,                                         KC_COMM, KC_A,    MT_E,    KC_I,    KC_M,    MT_RPRN,
         KC_LBRC, KC_F,    KC_P,    KC_L,    KC_D,    KC_V,                                         KC_EQL,  KC_U,    KC_O,    KC_Y,    DI_TH,   KC_RBRC,
-                                            US_AT,   LT_R,  MT_ESC,                       KC_UNDS, LT_SPC,  US_QUOT
+                                            KC_Q,   LT_R,  MT_ESC,                       KC_UNDS, LT_SPC,  US_QUOT
     ),
      /*
       * ┌───┬───┬───┬───┬───┬───┐       ┌───┬───┬───┬───┬───┬───┐
-      * │ Z │ B │ W │ H │ G │ " │       │ @ │ . │ / │ J │ X │ Q │
+      * │ Z │ B │ W │ H │ G │ " │       │ @ │ . │ / │ J │ X │ @ │
       * ├───┼───┼───┼───┼───┼───┤       ├───┼───┼───┼───┼───┼───┤
       * │ ( │ S │ C │ N │ T │ K │       │ , │ A │ E │ I │ M │ ) │
       * ├───┼───┼───┼───┼───┼───┤       ├───┼───┼───┼───┼───┼───┤
@@ -463,9 +465,10 @@ const uint16_t PROGMEM combo_delete[] = {KC_X, KC_J, COMBO_END};
 const uint16_t PROGMEM combo_backspace_se[] = {SE_ADIA, KC_J, COMBO_END};
 const uint16_t PROGMEM combo_backspace_fr[] = {US_EACU, KC_J, COMBO_END};
 const uint16_t PROGMEM combo_backspace_sym[] = {KC_SLSH, US_TILD, COMBO_END};
-const uint16_t PROGMEM combo_prtscr[] = {US_AT, KC_DOT, COMBO_END};
+const uint16_t PROGMEM combo_prtscr[] = {US_COLN, KC_DOT, COMBO_END};
 const uint16_t PROGMEM combo_capsword[] = {MT_LPRN, MT_RPRN, COMBO_END};
 const uint16_t PROGMEM combo_bootloader[] = {US_DQUO, US_COLN, COMBO_END};
+const uint16_t PROGMEM combo_kb_reboot[] = {US_AT, KC_Z, COMBO_END};
 const uint16_t PROGMEM combo_sleep[] = {KC_COMM, KC_EQL, COMBO_END};
 const uint16_t PROGMEM combo_enter[] = {KC_A, KC_I, COMBO_END};
 const uint16_t PROGMEM combo_en[] = {MT_N, MT_E, COMBO_END};
@@ -482,6 +485,7 @@ combo_t key_combos[] = {
     COMBO(combo_prtscr, KC_PRINT_SCREEN),
     COMBO(combo_capsword, CW_TOGG),
     COMBO(combo_bootloader, QK_BOOT),
+    COMBO(combo_kb_reboot, QK_RBT),
     COMBO(combo_sleep, KC_SYSTEM_SLEEP),
     COMBO(combo_enter, KC_ENT),
     COMBO(combo_fr, TO(L_FR)),
