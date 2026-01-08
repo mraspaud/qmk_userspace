@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: GPL-2.0
 #include QMK_KEYBOARD_H
 #include "keymap_extras/keymap_us_international_linux.h"
+#include "keymap_extras/keymap_eurkey.h"
 #define QU_TIMEOUT 500
 static uint16_t q_timer = 0;
 // Layers declarations
@@ -18,21 +19,14 @@ enum {
 };
 
 enum unicode_names {
-    ELL,
-    AGRV,
-    AAGRV,
     ACRC,
     AACRC,
-    EGRV,
-    EEGRV,
     ECRC,
     EECRC,
     ICRC,
     IICRC,
     OCRC,
     OOCRC,
-    UGRV,
-    UUGRV,
     UCRC,
     UUCRC,
     NDASH,
@@ -47,49 +41,37 @@ enum unicode_names {
 };
 
 const uint32_t PROGMEM unicode_map[] = {
-    [ELL]  = 0x2026,  // …
-    [AGRV] = 0x00E0,  // à
-    [AAGRV] = 0x00C0,  // À
     [ACRC] = 0x00E2,  // â
     [AACRC] = 0x00C2,  // Â
-    [EGRV] = 0x00E8,  // è
-    [EEGRV] = 0x00C8,  // È
     [ECRC] = 0x00EA,  // ê
     [EECRC] = 0x00CA,  // Ê
     [ICRC] = 0x00EE,  // î
     [IICRC] = 0x00CE,  // Î
     [OCRC] = 0x00F4,  // ô
     [OOCRC] = 0x00D4,  // Ô
-    [UGRV] = 0x00F9,  // ù
-    [UUGRV] = 0x00D9,  // Ù
     [UCRC] = 0x00FB,  // û
     [UUCRC] = 0x00DB,  // Û
     [NDASH] = 0x2013,  // –
     [MDASH] = 0x2014,  // —
     [MINUS] = 0x2212,  // −
     [HYPHEN] = 0x002D,  // -
-    [MIDPOINT] = 0x00B7, // ·
     [LANGL] = 0x27E8, // ⟨
     [RANGL] = 0x27E9, // ⟩
     [SEQL] = 0x2264, // ≤
     [GEQL] = 0x2265, // ≥
 };
 
-#define U_AGRV UP(AGRV, AAGRV)
 #define U_ACRC UP(ACRC, AACRC)
-#define U_EGRV UP(EGRV, EEGRV)
 #define U_ECRC UP(ECRC, EECRC)
 #define U_ICRC UP(ICRC, IICRC)
 #define U_OCRC UP(OCRC, OOCRC)
-#define U_UGRV UP(UGRV, UUGRV)
 #define U_UCRC UP(UCRC, UUCRC)
 #define U_DASH UP(NDASH, MDASH)
 #define U_HYPHEN UP(NDASH, HYPHEN)
 #define U_MINUS UP(MINUS, MDASH)
-#define U_ELL  UP(ELL, MIDPOINT)
 #define U_LANGL UP(LANGL, SEQL)
 #define U_RANGL UP(RANGL, GEQL)
-#define KC_PSMS S(US_MICR)
+#define KC_PSMS S(EU_DGRK)
 #define MAGICFR OSL(L_FRSYM)
 
 enum custom_keycodes {
@@ -106,8 +88,8 @@ enum {
 // Tap Dance definitions
 tap_dance_action_t tap_dance_actions[] = {
     // Tap once for Escape, twice for Caps Lock
-    [TD_ADIA] = ACTION_TAP_DANCE_DOUBLE(US_ADIA, US_AE),
-    [TD_ODIA] = ACTION_TAP_DANCE_DOUBLE(US_ODIA, US_OSTR),
+    [TD_ADIA] = ACTION_TAP_DANCE_DOUBLE(EU_ADIA, EU_AE),
+    [TD_ODIA] = ACTION_TAP_DANCE_DOUBLE(EU_ODIA, EU_OSTR),
 };
 
 #define SE_ODIA TD(TD_ODIA)
@@ -126,7 +108,7 @@ tap_dance_action_t tap_dance_actions[] = {
 #define MT_N LSFT_T(KC_N)
 #define MT_0 RSFT_T(KC_0)
 #define MT_1 LSFT_T(KC_1)
-#define MT_DGRV LSFT_T(US_DGRV)
+#define MT_DGRV LSFT_T(EU_DGRV)
 
 #include "features/custom_shift_keys.h"
 
@@ -258,13 +240,13 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case KC_I:
         case KC_O:
         case KC_Y:
-        case US_EACU:
+        case EU_EACU:
         case U_ACRC:
         case U_ECRC:
-        case U_EGRV:
+        case EU_EGRV:
         case U_ICRC:
-        case US_QUOT:
-        case US_RSQU:
+        case EU_QUOT:
+        case EU_RSQU:
             if (record->event.pressed) {
                 if (q_timer != 0) {
                     q_timer = 0;
@@ -293,23 +275,24 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   {KC_DOT , KC_EXLM}, // Shift . is !
   {KC_COMM, KC_QUES}, // Shift , is :
   {KC_COLN, KC_SCLN}, // Shift : is ;
-  {US_DQUO, US_GRV }, // Shift " is `
+  {EU_DQUO, EU_GRV }, // Shift " is `
   {KC_UNDS, KC_MINS }, // Shift _ is -
   {KC_LBRC, KC_LCBR }, // Shift [ is {
   {KC_RBRC, KC_RCBR }, // Shift ] is }
   {MT_LPRN, KC_LABK }, // Shift ( is <
   {MT_RPRN, KC_RABK }, // Shift } is >
-  {KC_SLSH, US_ASTR }, // Shift / is *
-  {US_QUOT, US_RSQU }, // Shift ' is ’
-  {KC_EQL, KC_PLUS}, // Shift = is #
-  {US_AT, US_HASH},
-  {US_RSQU, US_RDQU}, // Shift ‘ is “
-  {US_LSQU, US_LDQU}, // Shift ’ is ”
-  {US_RDAQ, US_RDQU}, // Shift « is “
-  {US_LDAQ, US_LDQU}, // Shift » is ”
-  {US_DEG, US_IQUE}, // Shift ° is ¿
+  {KC_SLSH, EU_ASTR }, // Shift / is *
+  {EU_QUOT, EU_RSQU }, // Shift ' is ’
+  {KC_EQL, KC_PLUS}, // Shift = is +
+  {EU_AT, EU_HASH}, // Shift @ is #
+  {EU_RSQU, EU_RDQU}, // Shift ‘ is “
+  {EU_LSQU, EU_LDQU}, // Shift ’ is ”
+  {EU_RDAQ, EU_RDQU}, // Shift « is “
+  {EU_LDAQ, EU_LDQU}, // Shift » is ”
+  {EU_DEG, EU_IQUE}, // Shift ° is ¿
   {CK_NNBS, CK_NBSP},
   {KC_BSPC, KC_DELETE},
+  {EU_ELLP, EU_MDDT}, // Shift … is ·
 };
 uint8_t NUM_CUSTOM_SHIFT_KEYS =
     sizeof(custom_shift_keys) / sizeof(custom_shift_key_t);
@@ -330,10 +313,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       *                       └───┘   └───┘
       */
     [L_BASE] = LAYOUT_split_3x6_3(
-        KC_Z,    KC_B,    KC_W,    KC_H,    KC_G,    US_DQUO,                                      US_COLN, KC_DOT,  KC_SLSH, KC_J,    KC_X,    US_AT,
+        KC_Z,    KC_B,    KC_W,    KC_H,    KC_G,    EU_DQUO,                                      EU_COLN, KC_DOT,  KC_SLSH, KC_J,    KC_X,    EU_AT,
         MT_LPRN, KC_S,    KC_C,    MT_N,    KC_T,    KC_K,                                         KC_COMM, KC_A,    MT_E,    KC_I,    KC_M,    MT_RPRN,
         KC_LBRC, KC_F,    KC_P,    KC_L,    KC_D,    KC_V,                                         KC_EQL,  KC_U,    KC_O,    KC_Y,    DI_TH,   KC_RBRC,
-                                            KC_Q,   LT_R,  MT_ESC,                       KC_UNDS, LT_SPC,  US_QUOT
+                                            KC_Q,   LT_R,  MT_ESC,                       KC_UNDS, LT_SPC,  EU_QUOT
     ),
      /*
       * ┌───┬───┬───┬───┬───┬───┐       ┌───┬───┬───┬───┬───┬───┐
@@ -350,10 +333,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       *                       └───┘   └───┘
       */
     [L_EN] = LAYOUT_split_3x6_3(
-        _______, _______, _______, _______, _______, _______,                                      US_RSQU, _______, _______, _______, _______,  _______,
         _______, _______, _______, _______, _______, _______,                                      _______, _______, _______, _______, _______,  _______,
-        US_LSQU, _______, _______, _______, _______, _______,                                      _______, _______, _______, _______, _______,  US_RSQU,
-                                            _______, _______, _______,                   U_HYPHEN, _______, US_RSQU
+        _______, _______, _______, _______, _______, _______,                                      _______, _______, _______, _______, _______,  _______,
+        EU_LSQU, _______, _______, _______, _______, _______,                                      _______, _______, _______, _______, _______,  EU_RSQU,
+                                            _______, _______, _______,                   U_HYPHEN, _______, EU_RSQU
     ),
       /*
       * ┌───┬───┬───┬───┬───┬───┐       ┌───┬───┬───┬───┬───┬───┐
@@ -370,10 +353,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       *                       └───┘   └───┘
       */
     [L_SE] = LAYOUT_split_3x6_3(
-        _______, _______, _______, _______, _______, _______,                                      US_RSQU, _______, SE_ADIA, _______, _______,  _______,
+        _______, _______, _______, _______, _______, _______,                                      _______, _______, SE_ADIA, _______, _______,  _______,
         _______, _______, _______, _______, _______, _______,                                      _______, _______, _______, _______, _______,  _______,
-        US_RDQU, _______, _______, _______, _______, _______,                                      US_ARNG, _______, _______, _______, SE_ODIA,  US_RDQU,
-                                            _______, _______, _______,                   U_HYPHEN, _______, US_RSQU
+        EU_RDQU, _______, _______, _______, _______, _______,                                      EU_ARNG, _______, _______, _______, SE_ODIA,  EU_RDQU,
+                                            _______, _______, _______,                   U_HYPHEN, _______, EU_RSQU
     ),
       /*
       * ┌───┬───┬───┬───┬───┬───┐       ┌───┬───┬───┬───┬───┬───┐
@@ -390,10 +373,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       *                       └───┘   └───┘
       */
     [L_FR] = LAYOUT_split_3x6_3(
-        _______, _______, US_CCED, _______, _______, KC_K,                                         US_RSQU, _______, US_EACU, _______, _______, _______,
+        _______, _______, EU_CCED, _______, _______, KC_K,                                         _______, _______, EU_EACU, _______, _______, _______,
         _______, _______, _______, _______, _______, MAGICFR,                                      _______, _______, _______, _______, _______, _______,
-        US_LDAQ, _______, _______, _______, _______, _______,                                      U_AGRV,  _______, _______, _______, _______, US_RDAQ,
-                                            _______, _______, _______,                   U_HYPHEN, _______, US_RSQU
+        EU_LDAQ, _______, _______, _______, _______, _______,                                      EU_AGRV, _______, _______, _______, _______, EU_RDAQ,
+                                            _______, _______, _______,                   U_HYPHEN, _______, EU_RSQU
     ),
         /*
       * ┌───┬───┬───┬───┬───┬───┐       ┌───┬───┬───┬───┬───┬───┐
@@ -410,9 +393,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       *                       └───┘   └───┘
       */
     [L_NUMSYM] = LAYOUT_split_3x6_3(
-        KC_BSLS, US_QUOT, KC_PIPE, KC_AMPR, KC_PERC, _______,                                      _______, _______, KC_SLSH, US_TILD, US_MICR, US_DEG,
+        KC_BSLS, EU_QUOT, KC_PIPE, KC_AMPR, KC_PERC, _______,                                      _______, _______, KC_SLSH, EU_TILD, EU_DGRK, EU_DEG,
         U_LANGL, KC_6,    KC_4,    MT_0,    KC_2,    U_MINUS,                                      _______, KC_3,    MT_1,    KC_5,    KC_7,    U_RANGL,
-        KC_LBRC, US_EURO, US_CIRC, KC_DLR,  KC_8,    KC_PSMS,                                      KC_EQL,  KC_9,    US_SCLN, U_ELL,   US_THRN, KC_RBRC,
+        KC_LBRC, EU_EURO, EU_CIRC, KC_DLR,  KC_8,    KC_PSMS,                                      KC_EQL,  KC_9,    EU_SCLN, EU_ELLP, EU_THRN, KC_RBRC,
                                             _______, _______, _______,                    KC_UNDS, CK_NNBS, QK_LLCK
     ),
        /*
@@ -450,9 +433,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       *                       └───┘   └───┘
       */
     [L_FRSYM] = LAYOUT_split_3x6_3(
-        _______, _______, KC_W,    US_ACUT, _______, US_DIAE,                                      _______, RALT(KC_X), U_EGRV,  _______, _______, _______,
-        _______, US_CEDL, US_DTIL, MT_DGRV, US_DCIR, KC_K,                                         _______, U_ACRC,  U_ECRC,  U_ICRC,  _______, _______,
-        _______, _______, _______, _______, _______, _______,                                      _______, U_UCRC,  U_OCRC,  CKC_OU,  US_OE,   _______,
+        _______, _______, KC_W,    EU_ACUT, _______, EU_DIAE,                                      _______, RALT(KC_X), EU_EGRV, _______, _______, _______,
+        _______, EU_CARN, EU_DTIL, MT_DGRV, EU_DCIR, KC_K,                                         _______, U_ACRC,  U_ECRC,  U_ICRC, _______, _______,
+        _______, _______, _______, _______, _______, _______,                                      EU_UGRV, U_UCRC,  U_OCRC,  CKC_OU,  EU_OE,   _______,
                                             _______, _______, _______,                    _______, _______,   _______
     ),
 };
@@ -463,12 +446,12 @@ const uint16_t PROGMEM combo_btab[] = {KC_W, KC_B, COMBO_END};
 const uint16_t PROGMEM combo_backspace[] = {KC_SLASH, KC_J, COMBO_END};
 const uint16_t PROGMEM combo_delete[] = {KC_X, KC_J, COMBO_END};
 const uint16_t PROGMEM combo_backspace_se[] = {SE_ADIA, KC_J, COMBO_END};
-const uint16_t PROGMEM combo_backspace_fr[] = {US_EACU, KC_J, COMBO_END};
-const uint16_t PROGMEM combo_backspace_sym[] = {KC_SLSH, US_TILD, COMBO_END};
-const uint16_t PROGMEM combo_prtscr[] = {US_COLN, KC_DOT, COMBO_END};
+const uint16_t PROGMEM combo_backspace_fr[] = {EU_EACU, KC_J, COMBO_END};
+const uint16_t PROGMEM combo_backspace_sym[] = {KC_SLSH, EU_TILD, COMBO_END};
+const uint16_t PROGMEM combo_prtscr[] = {EU_COLN, KC_DOT, COMBO_END};
 const uint16_t PROGMEM combo_capsword[] = {MT_LPRN, MT_RPRN, COMBO_END};
-const uint16_t PROGMEM combo_bootloader[] = {US_DQUO, US_COLN, COMBO_END};
-const uint16_t PROGMEM combo_kb_reboot[] = {US_AT, KC_Z, COMBO_END};
+const uint16_t PROGMEM combo_bootloader[] = {EU_DQUO, EU_COLN, COMBO_END};
+const uint16_t PROGMEM combo_kb_reboot[] = {EU_AT, KC_Z, COMBO_END};
 const uint16_t PROGMEM combo_sleep[] = {KC_COMM, KC_EQL, COMBO_END};
 const uint16_t PROGMEM combo_enter[] = {KC_A, KC_I, COMBO_END};
 const uint16_t PROGMEM combo_en[] = {MT_N, MT_E, COMBO_END};
