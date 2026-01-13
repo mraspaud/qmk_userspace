@@ -9,4 +9,5 @@ SRC += features/custom_shift_keys.c
 CAPS_WORD_ENABLE = yes
 LAYER_LOCK_ENABLE = yes
 REPEAT_KEY_ENABLE = yes
-SLEEP_LED_ENABLE = yes
+OPT_DEFS += -DOTG_NO_VBUS_SENSE
+USB_SUSPEND_ENABLE = no

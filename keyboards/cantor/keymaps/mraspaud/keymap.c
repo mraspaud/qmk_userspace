@@ -110,6 +110,12 @@ tap_dance_action_t tap_dance_actions[] = {
 #define MT_1 LSFT_T(KC_1)
 #define MT_DGRV LSFT_T(EU_DGRV)
 
+void keyboard_post_init_user(void) {
+    // Wait 1 second for power to stabilize and the PC to catch up
+    wait_ms(1000);
+}
+
+
 #include "features/custom_shift_keys.h"
 
 bool is_shift_pressed(keyrecord_t *record) {
