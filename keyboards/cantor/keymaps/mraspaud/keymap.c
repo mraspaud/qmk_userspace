@@ -380,11 +380,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
         /*
       * ┌───┬───┬───┬───┬───┬───┐       ┌───┬───┬───┬───┬───┬───┐
-      * │ \ │ ' │ | │ & │ % │ " │       │ ± │ . │ / │ ~ │ ; │ ° │
+      * │cps│ \ │ | │ & │ % │ " │       │ : │ . │ / │ ~ │ µ │ ° │
       * ├───┼───┼───┼───┼───┼───┤       ├───┼───┼───┼───┼───┼───┤
-      * │ ⟨ │ 6 │ 4 │ 0 │ 2 │ - │       │ , │ 3 │ 1 │ 5 │ 7 │ ⟩ │
+      * │ ( │ 6 │ 4 │ 0 │ 2 │ – │       │ , │ 3 │ 1 │ 5 │ 7 │ ) │
       * ├───┼───┼───┼───┼───┼───┤       ├───┼───┼───┼───┼───┼───┤
-      * │ [ │ ^ │ € │ $ │ 8 │ + │       │ = │ 9 │ ! │ … │ ? │ ] │
+      * │ [ │ ^ │ € │ § │ 8 │ $ │       │ = │ 9 │ … │ · │ ? │ ] │
       * └───┴───┴───┴───┴───┴───┘       └───┴───┴───┴───┴───┴───┘
       *               ┌───┐                   ┌───┐
       *               │Qu ├───┐           ┌───┤Lck│
@@ -393,9 +393,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       *                       └───┘   └───┘
       */
     [L_NUMSYM] = LAYOUT_split_3x6_3(
-        KC_BSLS, EU_QUOT, KC_PIPE, KC_AMPR, KC_PERC, _______,                                      _______, _______, KC_SLSH, EU_TILD, EU_DGRK, EU_DEG,
-        U_LANGL, KC_6,    KC_4,    MT_0,    KC_2,    U_MINUS,                                      _______, KC_3,    MT_1,    KC_5,    KC_7,    U_RANGL,
-        KC_LBRC, EU_CIRC, EU_EURO, KC_PSMS, KC_8,     KC_DLR,                                      KC_EQL,  KC_9,    EU_SCLN, EU_ELLP, EU_THRN, KC_RBRC,
+        KC_PSMS, KC_BSLS, KC_PIPE, KC_AMPR, KC_PERC, _______,                                      _______, _______, KC_SLSH, EU_TILD, EU_DGRK, EU_DEG,
+        _______, KC_6,    KC_4,    MT_0,    KC_2,    EU_NDSH,                                      _______, KC_3,    MT_1,    KC_5,    KC_7,    _______,
+        KC_LBRC, EU_CIRC, EU_EURO, EU_SECT, KC_8,    KC_DLR,                                       KC_EQL,  KC_9,    EU_ELLP, EU_MDDT, EU_THRN, KC_RBRC,
                                             _______, _______, _______,                    KC_UNDS, CK_NNBS, QK_LLCK
     ),
        /*
