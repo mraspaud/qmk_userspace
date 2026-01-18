@@ -110,12 +110,6 @@ tap_dance_action_t tap_dance_actions[] = {
 #define MT_1 LSFT_T(KC_1)
 #define MT_DGRV LSFT_T(EU_DGRV)
 
-void keyboard_post_init_user(void) {
-    // Wait 1 second for power to stabilize and the PC to catch up
-    wait_ms(1000);
-}
-
-
 #include "features/custom_shift_keys.h"
 
 bool is_shift_pressed(keyrecord_t *record) {
@@ -326,7 +320,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
      /*
       * ┌───┬───┬───┬───┬───┬───┐       ┌───┬───┬───┬───┬───┬───┐
-      * │ Z │ B │ W │ H │ G │ " │       │ @ │ . │ / │ J │ X │ @ │
+      * │ Z │ B │ W │ H │ G │ " │       │ : │ . │ / │ J │ X │ @ │
       * ├───┼───┼───┼───┼───┼───┤       ├───┼───┼───┼───┼───┼───┤
       * │ ( │ S │ C │ N │ T │ K │       │ , │ A │ E │ I │ M │ ) │
       * ├───┼───┼───┼───┼───┼───┤       ├───┼───┼───┼───┼───┼───┤
@@ -346,14 +340,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
       /*
       * ┌───┬───┬───┬───┬───┬───┐       ┌───┬───┬───┬───┬───┬───┐
-      * │ Z │ W │ B │ H │ G │ ” │       │ @ │ . │ Ä │ J │ X │ Q │
+      * │ Z │ W │ B │ H │ G │ ” │       │ : │ . │ Ä │ J │ X │ @ │
       * ├───┼───┼───┼───┼───┼───┤       ├───┼───┼───┼───┼───┼───┤
       * │ ( │ C │ S │ N │ T │ K │       │ , │ A │ E │ I │ M │ ) │
       * ├───┼───┼───┼───┼───┼───┤       ├───┼───┼───┼───┼───┼───┤
       * │ ” │ P │ F │ L │ D │ V │       │ Å │ U │ O │ Y │ Ö │ ” │
       * └───┴───┴───┴───┴───┴───┘       └───┴───┴───┴───┴───┴───┘
       *               ┌───┐                   ┌───┐
-      *               │Th ├───┐           ┌───┤ Ö │
+      *               │Qu ├───┐           ┌───┤ ’ │
       *               └───┤ R ├───┐   ┌───┤   ├───┘
       *                   └───┤Esc│   │ - ├───┘
       *                       └───┘   └───┘
@@ -366,7 +360,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
       /*
       * ┌───┬───┬───┬───┬───┬───┐       ┌───┬───┬───┬───┬───┬───┐
-      * │ Z │ Ç │ B │ H │ G │ K │       │ @ │ . │ É │ J │ X │ Q │
+      * │ Z │ Ç │ B │ H │ G │ " │       │ : │ . │ É │ J │ X │ @ │
       * ├───┼───┼───┼───┼───┼───┤       ├───┼───┼───┼───┼───┼───┤
       * │ ( │ C │ S │ N │ T │MgK│       │ , │ A │ E │ I │ M │ ) │
       * ├───┼───┼───┼───┼───┼───┤       ├───┼───┼───┼───┼───┼───┤
@@ -379,7 +373,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       *                       └───┘   └───┘
       */
     [L_FR] = LAYOUT_split_3x6_3(
-        _______, _______, EU_CCED, _______, _______, KC_K,                                         _______, _______, EU_EACU, _______, _______, _______,
+        _______, _______, EU_CCED, _______, _______, _______,                                      _______, _______, EU_EACU, _______, _______, _______,
         _______, _______, _______, _______, _______, MAGICFR,                                      _______, _______, _______, _______, _______, _______,
         EU_LDAQ, _______, _______, _______, _______, _______,                                      EU_AGRV, _______, _______, _______, _______, EU_RDAQ,
                                             _______, _______, _______,                   U_HYPHEN, _______, EU_RSQU
@@ -401,7 +395,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [L_NUMSYM] = LAYOUT_split_3x6_3(
         KC_BSLS, EU_QUOT, KC_PIPE, KC_AMPR, KC_PERC, _______,                                      _______, _______, KC_SLSH, EU_TILD, EU_DGRK, EU_DEG,
         U_LANGL, KC_6,    KC_4,    MT_0,    KC_2,    U_MINUS,                                      _______, KC_3,    MT_1,    KC_5,    KC_7,    U_RANGL,
-        KC_LBRC, EU_EURO, EU_CIRC, KC_DLR,  KC_8,    KC_PSMS,                                      KC_EQL,  KC_9,    EU_SCLN, EU_ELLP, EU_THRN, KC_RBRC,
+        KC_LBRC, EU_CIRC, EU_EURO, KC_PSMS, KC_8,     KC_DLR,                                      KC_EQL,  KC_9,    EU_SCLN, EU_ELLP, EU_THRN, KC_RBRC,
                                             _______, _______, _______,                    KC_UNDS, CK_NNBS, QK_LLCK
     ),
        /*
@@ -448,6 +442,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 
 const uint16_t PROGMEM combo_tab[] = {KC_W, KC_H, COMBO_END};
+const uint16_t PROGMEM combo_tab_fr[] = {EU_CCED, KC_H, COMBO_END};
 const uint16_t PROGMEM combo_btab[] = {KC_W, KC_B, COMBO_END};
 const uint16_t PROGMEM combo_backspace[] = {KC_SLASH, KC_J, COMBO_END};
 const uint16_t PROGMEM combo_delete[] = {KC_X, KC_J, COMBO_END};
@@ -466,8 +461,10 @@ const uint16_t PROGMEM combo_fr[] = {KC_F, LT_R, COMBO_END};
 const uint16_t PROGMEM combo_base[] = {KC_P, KC_L, KC_D, COMBO_END};
 combo_t key_combos[] = {
     COMBO(combo_tab, KC_TAB),
+    COMBO(combo_tab_fr, KC_TAB),
     COMBO(combo_btab, RSFT(KC_TAB)),
     COMBO(combo_backspace, KC_BSPC),
+    COMBO(combo_delete, KC_DEL),
     COMBO(combo_backspace_se, KC_BSPC),
     COMBO(combo_backspace_fr, KC_BSPC),
     COMBO(combo_backspace_sym, KC_BSPC),
