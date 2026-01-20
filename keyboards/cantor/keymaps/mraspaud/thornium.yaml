@@ -1,0 +1,465 @@
+layout:
+    qmk_keyboard: cantor
+    layout_name: LAYOUT_split_3x6_3
+layers:
+    Base:
+        - [
+              Z,
+              B,
+              W,
+              H,
+              G,
+              { t: '"', s: "`" },
+              { t: ":", s: ";" },
+              { t: ".", s: "!" },
+              { t: "/", s: "*" },
+              J,
+              X,
+              { t: "@", s: "#" },
+          ]
+        - [
+              { h: $$mdi:apple-keyboard-control$$, t: "(", s: ">" },
+              # S,
+              {
+                  tl: "S", # Center
+                  tr: "%", # Top-Left (Shifted)
+                  h: "Ctrl", # Bottom-Right (Hold)
+                  t: "S",
+                  bl: "F5", # Bottom-Left
+                  br: "5",
+              }, # Top-Right
+              C,
+              { h: $$mdi:apple-keyboard-shift$$, t: N },
+              { t: T },
+              K,
+              { t: ",", s: "?" },
+              { t: A },
+              { h: $$mdi:apple-keyboard-shift$$, t: E },
+              I,
+              M,
+              { h: $$mdi:apple-keyboard-control$$, t: ")", s: ">" },
+          ]
+        - [
+              { t: "[", s: "{" },
+              F,
+              P,
+              L,
+              D,
+              V,
+              { t: "=", s: "+" },
+              U,
+              O,
+              Y,
+              "Th",
+              { t: "]", s: "}" },
+          ]
+        - Q
+        - { h: SYM, t: R }
+        - { h: $$mdi:apple-keyboard-option$$, t: $$mdi:keyboard-esc$$ }
+        - [{ t: "_", s: "-" }]
+        - { h: NAV, t: $$mdi:keyboard-space$$ }
+        - { t: "'", s: "’" }
+    # Nav:
+    #     - [
+    #           { t: ▽, type: trans },
+    #           { t: ▽, type: trans },
+    #           { t: ▽, type: trans },
+    #           { t: ▽, type: trans },
+    #           { t: ▽, type: trans },
+    #           { t: ▽, type: trans },
+    #           $$mdi:brightness-7$$,
+    #           $$mdi:arrow-collapse-down$$,
+    #           $$mdi:chevron-up$$,
+    #           $$mdi:arrow-collapse-up$$,
+    #           $$mdi:brightness-5$$,
+    #           $$mdi:volume-plus$$,
+    #       ]
+    #     - [
+    #           { t: ▽, type: trans },
+    #           $$mdi:linux$$,
+    #           $$mdi:apple-keyboard-option$$,
+    #           $$mdi:apple-keyboard-shift$$,
+    #           $$mdi:apple-keyboard-control$$,
+    #           { t: ▽, type: trans },
+    #           ⇱,
+    #           $$mdi:chevron-left$$,
+    #           $$mdi:chevron-down$$,
+    #           $$mdi:chevron-right$$,
+    #           ⇲,
+    #           $$mdi:volume-minus$$,
+    #       ]
+    #     - [
+    #           ÷,
+    #           { t: ▽, type: trans },
+    #           { t: ▽, type: trans },
+    #           { t: ▽, type: trans },
+    #           { t: ▽, type: trans },
+    #           { t: ▽, type: trans },
+    #           { t: ▽, type: trans },
+    #           $$mdi:skip-previous$$,
+    #           $$mdi:play$$,
+    #           $$mdi:skip-next$$,
+    #           $$mdi:stop$$,
+    #           $$mdi:volume-mute$$,
+    #       ]
+    #     - { t: ▽, type: trans }
+    #     - $$mdi:apple-keyboard-option$$
+    #     - { t: ▽, type: trans }
+    #     - { t: ▽, type: trans }
+    #     - { t: NAV, type: ghost }
+    #     - { t: ▽, type: trans }
+    # Sym:
+    #     - [
+    #           "\\",
+    #           "'",
+    #           "|",
+    #           "&",
+    #           "%",
+    #           { t: ▽, type: trans },
+    #           "±",
+    #           { t: ▽, type: trans },
+    #           { t: ▽, type: trans },
+    #           "~",
+    #           "!",
+    #           "°",
+    #       ]
+    #     - [
+    #           { t: ▽, type: trans },
+    #           6,
+    #           4,
+    #           0,
+    #           2,
+    #           "-",
+    #           { t: ▽, type: trans },
+    #           3,
+    #           1,
+    #           5,
+    #           7,
+    #           { t: ▽, type: trans },
+    #       ]
+    #     - [
+    #           { t: ▽, type: trans },
+    #           "€",
+    #           "^",
+    #           "$",
+    #           8,
+    #           "+",
+    #           { t: ▽, type: trans },
+    #           9,
+    #           ";",
+    #           "…",
+    #           "µ",
+    #           { t: ▽, type: trans },
+    #       ]
+    #     - { t: ▽, type: trans }
+    #     - { t: SYM, type: ghost }
+    #     - { t: ▽, type: trans }
+    #     - { t: ▽, type: trans }
+    #     - { t: NNBSP, s: NBSP }
+    #     - "Lock"
+    # En:
+    #     - [
+    #           { t: ▽, type: trans },
+    #           { t: "’", s: "”" },
+    #           { t: ▽, type: trans },
+    #           { t: ▽, type: trans },
+    #           { t: ▽, type: trans },
+    #           { t: ▽, type: trans },
+    #           { t: ▽, type: trans },
+    #           { t: ▽, type: trans },
+    #           { t: ▽, type: trans },
+    #           { t: ▽, type: trans },
+    #           { t: ▽, type: trans },
+    #           { t: ▽, type: trans },
+    #       ]
+    #     - [
+    #           { t: ▽, type: trans },
+    #           { t: ▽, type: trans },
+    #           { t: ▽, type: trans },
+    #           { t: ▽, type: trans },
+    #           { t: ▽, type: trans },
+    #           { t: ▽, type: trans },
+    #           { t: ▽, type: trans },
+    #           { t: ▽, type: trans },
+    #           { t: ▽, type: trans },
+    #           { t: ▽, type: trans },
+    #           { t: ▽, type: trans },
+    #           { t: ▽, type: trans },
+    #       ]
+    #     - [
+    #           { t: "‘", s: "“" },
+    #           { t: ▽, type: trans },
+    #           { t: ▽, type: trans },
+    #           { t: ▽, type: trans },
+    #           { t: ▽, type: trans },
+    #           { t: ▽, type: trans },
+    #           { t: ▽, type: trans },
+    #           { t: ▽, type: trans },
+    #           { t: ▽, type: trans },
+    #           { t: ▽, type: trans },
+    #           { t: ▽, type: trans },
+    #           { t: "’", s: "”" },
+    #       ]
+    #     - { t: ▽, type: trans }
+    #     - { t: ▽, type: trans }
+    #     - { t: ▽, type: trans }
+    #     - { t: "-", s: "–" }
+    #     - { t: ▽, type: trans }
+    #     - { t: ▽, type: trans }
+    # Se:
+    #     - [
+    #           { t: ▽, type: trans },
+    #           { t: "’", s: "”" },
+    #           { t: ▽, type: trans },
+    #           { t: ▽, type: trans },
+    #           { t: ▽, type: trans },
+    #           { t: ▽, type: trans },
+    #           { t: ▽, type: trans },
+    #           { t: ▽, type: trans },
+    #           "Ä",
+    #           { t: ▽, type: trans },
+    #           { t: ▽, type: trans },
+    #           { t: ▽, type: trans },
+    #       ]
+    #     - [
+    #           { t: ▽, type: trans },
+    #           { t: ▽, type: trans },
+    #           { t: ▽, type: trans },
+    #           { t: ▽, type: trans },
+    #           { t: ▽, type: trans },
+    #           { t: ▽, type: trans },
+    #           { t: ▽, type: trans },
+    #           { t: ▽, type: trans },
+    #           { t: ▽, type: trans },
+    #           { t: ▽, type: trans },
+    #           { t: ▽, type: trans },
+    #           { t: ▽, type: trans },
+    #       ]
+    #     - [
+    #           "”",
+    #           { t: ▽, type: trans },
+    #           { t: ▽, type: trans },
+    #           { t: ▽, type: trans },
+    #           { t: ▽, type: trans },
+    #           { t: ▽, type: trans },
+    #           "Å",
+    #           { t: ▽, type: trans },
+    #           { t: ▽, type: trans },
+    #           { t: ▽, type: trans },
+    #           { t: ▽, type: trans },
+    #           "”",
+    #       ]
+    #     - { t: ▽, type: trans }
+    #     - { t: ▽, type: trans }
+    #     - { t: ▽, type: trans }
+    #     - { t: "-", s: "–" }
+    #     - { t: ▽, type: trans }
+    #     - "Ö"
+    # Fr:
+    #     - [
+    #           { t: ▽, type: trans },
+    #           "Ç",
+    #           { t: ▽, type: trans },
+    #           { t: ▽, type: trans },
+    #           { t: ▽, type: trans },
+    #           { t: ▽, type: trans },
+    #           { t: ▽, type: trans },
+    #           { t: ▽, type: trans },
+    #           "É",
+    #           { t: ▽, type: trans },
+    #           { t: ▽, type: trans },
+    #           { t: ▽, type: trans },
+    #       ]
+    #     - [
+    #           { t: ▽, type: trans },
+    #           { t: ▽, type: trans },
+    #           { t: ▽, type: trans },
+    #           { t: ▽, type: trans },
+    #           { t: ▽, type: trans },
+    #           $$mdi:star$$,
+    #           { t: ▽, type: trans },
+    #           { t: ▽, type: trans },
+    #           { t: ▽, type: trans },
+    #           { t: ▽, type: trans },
+    #           { t: ▽, type: trans },
+    #           { t: ▽, type: trans },
+    #       ]
+    #     - [
+    #           "«",
+    #           { t: ▽, type: trans },
+    #           { t: ▽, type: trans },
+    #           { t: ▽, type: trans },
+    #           { t: ▽, type: trans },
+    #           { t: ▽, type: trans },
+    #           "À",
+    #           { t: ▽, type: trans },
+    #           { t: ▽, type: trans },
+    #           { t: ▽, type: trans },
+    #           { t: ▽, type: trans },
+    #           "»",
+    #       ]
+    #     - { t: ▽, type: trans }
+    #     - { t: ▽, type: trans }
+    #     - { t: ▽, type: trans }
+    #     - { t: "-", s: "–" }
+    #     - { t: ▽, type: trans }
+    #     - "’"
+    # FrMagic:
+    #     - [
+    #           { t: ▽, type: trans },
+    #           { t: ▽, type: trans },
+    #           { t: ▽, type: trans },
+    #           "´",
+    #           { t: ▽, type: trans },
+    #           "¨",
+    #           { t: ▽, type: trans },
+    #           "·",
+    #           "È",
+    #           { t: ▽, type: trans },
+    #           { t: ▽, type: trans },
+    #           { t: ▽, type: trans },
+    #       ]
+    #     - [
+    #           { t: ▽, type: trans },
+    #           "¸",
+    #           "~",
+    #           "`",
+    #           "^",
+    #           K,
+    #           { t: ▽, type: trans },
+    #           Â,
+    #           Ê,
+    #           Î,
+    #           { t: ▽, type: trans },
+    #           { t: ▽, type: trans },
+    #       ]
+    #     - [
+    #           { t: ▽, type: trans },
+    #           { t: ▽, type: trans },
+    #           { t: ▽, type: trans },
+    #           { t: ▽, type: trans },
+    #           { t: ▽, type: trans },
+    #           { t: ▽, type: trans },
+    #           { t: ▽, type: trans },
+    #           "Û",
+    #           "Ô",
+    #           "Où",
+    #           "Œ",
+    #           { t: ▽, type: trans },
+    #       ]
+    #     - { t: ▽, type: trans }
+    #     - { t: ▽, type: trans }
+    #     - { t: ▽, type: trans }
+    #     - { t: ▽, type: trans }
+    #     - { t: ▽, type: trans }
+    #     - { t: ▽, type: trans }
+# combos:
+#     - { p: [6, 7], k: $$mdi:monitor-screenshot$$, l: ["Base"] }
+#     - { p: [5, 6], k: BOOT, a: top, l: ["Base"] }
+#     - { p: [19, 21], k: $$mdi:keyboard-return$$, a: top, l: ["Base"] }
+#     - { p: [12, 23], k: Caps Wrd, a: top, l: ["Base"] }
+#     - { p: [1, 2], k: $$mdi:keyboard-tab-reverse$$, l: ["Base"] }
+#     - { p: [2, 3], k: $$mdi:keyboard-tab$$, l: ["Base"] }
+#     - { p: [8, 9], k: $$mdi:backspace-outline$$, l: ["Base"] }
+#     - { p: [9, 10], k: $$mdi:backspace-reverse-outline$$, l: ["Base"] }
+draw_config:
+    # glyph_tap_size: 18
+
+    # glyph_tl_size: 18
+    dark_mode: false
+    # separate_combo_diagrams: true
+    key_h: 80
+    svg_style: |
+        /* Key Background: Beige fill, no wireframe stroke */
+        rect.key, path.key {
+          fill: #f4f0ea;
+          stroke: #d8d3cc;
+          stroke-width: 1px;
+        }
+        /* Split/Combo outlines */
+        path.combo, path.outline { stroke: #d8d3cc; stroke-width: 2px; }
+
+        /* Default Text Color: Dark Grey (softer than black) */
+        text {
+          font-family: "ProximaNovaSoft";
+          fill: #5c6166;
+        }
+
+    svg_extra_style: |
+        /* --- CENTER (Tap) --- */
+        text.t, text.tap {
+          font-size: 14px;
+          font-weight: 800;
+          fill: #3b4252; /* Darker grey for main legend */
+        }
+
+        /* --- TOP LEFT (Red / Shift / Symbols) --- */
+        text.tl {
+          font-size: 20px;
+          fill: #bf616a; /* Nord Red */
+          text-anchor: start;    /* Align Left */
+          transform: translate(-20px, -15px);
+        }
+
+        /* --- TOP RIGHT (Green / Numbers) --- */
+        text.tr {
+          font-size: 9px;
+          fill: #a3be8c; /* Nord Green */
+          text-anchor: end;      /* Align Right */
+          transform: translate(20px, -15px);
+        }
+
+        /* --- BOTTOM LEFT (Orange / Nav / Fun) --- */
+        text.bl {
+          font-size: 9px;
+          fill: #d08770; /* Nord Orange */
+          text-anchor: start;    /* Align Left */
+          transform: translate(-20px, 15px);
+        }
+
+        /* --- BOTTOM RIGHT (Blue / Mouse / Media) --- */
+        text.br {
+          font-size: 9px;
+          fill: #5e81ac; /* Nord Blue */
+          text-anchor: end;      /* Align Right */
+          transform: translate(20px, 15px);
+        }
+    #     /* Center Tap: Big and Bold */
+    #     text.tap {
+    #       font-size: 16px;
+    #       font-weight: 800;
+    #     }
+    #
+    #     /* Top-Left Corner (mapped to 'shifted') */
+    #     text.shifted {
+    #       text-anchor: start;
+    #       transform: translate(-18px, -14px);
+    #       font-size: 10px;
+    #       fill: #bf616a; /* Red for symbols */
+    #     }
+    #
+    #     /* Top-Right Corner (mapped to 'right') */
+    #     text.right {
+    #       text-anchor: end;
+    #       transform: translate(18px, -14px);
+    #       font-size: 10px;
+    #       fill: #a3be8c; /* Green for numbers */
+    #     }
+    #
+    #     /* Bottom-Left Corner (mapped to 'left') */
+    #     text.left {
+    #       text-anchor: start;
+    #       transform: translate(-18px, 14px);
+    #       font-size: 9px;
+    #       font-weight: bold;
+    #       fill: #d08770; /* Orange for function keys */
+    #     }
+    #
+    #     /* Bottom-Right Corner (mapped to 'hold') */
+    #     text.hold {
+    #       text-anchor: end;
+    #       transform: translate(18px, 14px);
+    #       font-size: 9px;
+    #       font-weight: bold;
+    #       fill: #5e81ac; /* Blue for Mods */
+    #     }
