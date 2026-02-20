@@ -1,10 +1,11 @@
 // Copyright 2025 Martin Raspaud (@mraspaud)
 // SPDX-License-Identifier: GPL-2.0
 #include QMK_KEYBOARD_H
-#include "keymap_extras/keymap_us_international_linux.h"
 #include "keymap_extras/keymap_eurkey.h"
-#define QU_TIMEOUT 500
+#define QU_TIMEOUT 1000
 static uint16_t q_timer = 0;
+static uint16_t last_keycode = 0;
+
 // Layers declarations
 enum {
     L_BASE = 0,
@@ -83,6 +84,8 @@ enum custom_keycodes {
 enum {
     TD_ADIA,
     TD_ODIA,
+    TD_CURR,
+    TD_THRN,
 };
 
 // Tap Dance definitions
@@ -90,10 +93,14 @@ tap_dance_action_t tap_dance_actions[] = {
     // Tap once for Escape, twice for Caps Lock
     [TD_ADIA] = ACTION_TAP_DANCE_DOUBLE(EU_ADIA, EU_AE),
     [TD_ODIA] = ACTION_TAP_DANCE_DOUBLE(EU_ODIA, EU_OSTR),
+    [TD_CURR] = ACTION_TAP_DANCE_DOUBLE(EU_EURO, EU_PND),
+    // [TD_THRN] = ACTION_TAP_DANCE_DOUBLE(DI_TH, EU_THRN),
 };
 
 #define SE_ODIA TD(TD_ODIA)
 #define SE_ADIA TD(TD_ADIA)
+#define SN_CURR TD(TD_CURR)
+// #define BA_THRN TD(TD_THRN)
 #define OS_LSFT OSM(MOD_LSFT)
 #define OS_LALT OSM(MOD_LALT)
 #define OS_LCTL OSM(MOD_LCTL)
@@ -106,6 +113,8 @@ tap_dance_action_t tap_dance_actions[] = {
 #define CK_NNBS S(RALT(KC_SPC))
 #define MT_E RSFT_T(KC_E)
 #define MT_N LSFT_T(KC_N)
+#define MT_M RCTL_T(KC_M)
+#define MT_S LCTL_T(KC_S)
 #define MT_0 RSFT_T(KC_0)
 #define MT_1 LSFT_T(KC_1)
 #define MT_DGRV LSFT_T(EU_DGRV)
@@ -232,7 +241,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             break;
         case KC_Q:
             if (record->event.pressed) {
-                q_timer = timer_read();
+                if (last_keycode != EU_COLN) {
+                    q_timer = timer_read();
+                }
             }
             break;
         case KC_A:
@@ -266,10 +277,29 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
             break;
     }
+    if (record->event.pressed) {
+        last_keycode = keycode;
+    }
     // your code here
     return true;
 }
 
+uint16_t get_flow_tap_term(uint16_t keycode, keyrecord_t* record,
+                           uint16_t prev_keycode) {
+    if (is_flow_tap_key(keycode) && is_flow_tap_key(prev_keycode)) {
+        switch (keycode) {
+            case MT_E:
+            case MT_N:
+            case LT_R:
+            case LT_SPC:
+              return 0;  // Short timeout on these keys.
+
+            default:
+              return FLOW_TAP_TERM;  // Longer timeout otherwise.
+        }
+    }
+    return 0;  // Disable Flow Tap.
+}
 
  const custom_shift_key_t custom_shift_keys[] = {
   {KC_DOT , KC_EXLM}, // Shift . is !
@@ -293,9 +323,20 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   {CK_NNBS, CK_NBSP},
   {KC_BSPC, KC_DELETE},
   {EU_ELLP, EU_MDDT}, // Shift … is ·
+
 };
 uint8_t NUM_CUSTOM_SHIFT_KEYS =
     sizeof(custom_shift_keys) / sizeof(custom_shift_key_t);
+
+
+const char chordal_hold_layout[MATRIX_ROWS][MATRIX_COLS] PROGMEM =
+    LAYOUT_split_3x6_3(
+        'L', 'L', 'L', 'L', 'L', 'L',  'R', 'R', 'R', 'R', 'R', 'R',
+        'L', 'L', 'L', 'L', 'L', 'L',  'R', 'R', 'R', 'R', 'R', 'R',
+        'L', 'L', 'L', 'L', 'L', 'L',  'R', 'R', 'R', 'R', 'R', 'R',
+                       '*', '*', '*',  '*', '*', '*'
+    );
+
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      /*
@@ -314,7 +355,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       */
     [L_BASE] = LAYOUT_split_3x6_3(
         KC_Z,    KC_B,    KC_W,    KC_H,    KC_G,    EU_DQUO,                                      EU_COLN, KC_DOT,  KC_SLSH, KC_J,    KC_X,    EU_AT,
-        MT_LPRN, KC_S,    KC_C,    MT_N,    KC_T,    KC_K,                                         KC_COMM, KC_A,    MT_E,    KC_I,    KC_M,    MT_RPRN,
+        MT_LPRN, MT_S,    KC_C,    MT_N,    KC_T,    KC_K,                                         KC_COMM, KC_A,    MT_E,    KC_I,    MT_M,    MT_RPRN,
         KC_LBRC, KC_F,    KC_P,    KC_L,    KC_D,    KC_V,                                         KC_EQL,  KC_U,    KC_O,    KC_Y,    DI_TH,   KC_RBRC,
                                             KC_Q,   LT_R,  MT_ESC,                       KC_UNDS, LT_SPC,  EU_QUOT
     ),
@@ -336,7 +377,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, _______, _______, _______, _______, _______,                                      _______, _______, _______, _______, _______,  _______,
         _______, _______, _______, _______, _______, _______,                                      _______, _______, _______, _______, _______,  _______,
         EU_LSQU, _______, _______, _______, _______, _______,                                      _______, _______, _______, _______, _______,  EU_RSQU,
-                                            _______, _______, _______,                   U_HYPHEN, _______, EU_RSQU
+                                            _______, _______, _______,                    KC_UNDS, _______, EU_RSQU
     ),
       /*
       * ┌───┬───┬───┬───┬───┬───┐       ┌───┬───┬───┬───┬───┬───┐
@@ -356,7 +397,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, _______, _______, _______, _______, _______,                                      _______, _______, SE_ADIA, _______, _______,  _______,
         _______, _______, _______, _______, _______, _______,                                      _______, _______, _______, _______, _______,  _______,
         EU_RDQU, _______, _______, _______, _______, _______,                                      EU_ARNG, _______, _______, _______, SE_ODIA,  EU_RDQU,
-                                            _______, _______, _______,                   U_HYPHEN, _______, EU_RSQU
+                                            _______, _______, _______,                    KC_UNDS, _______, EU_RSQU
     ),
       /*
       * ┌───┬───┬───┬───┬───┬───┐       ┌───┬───┬───┬───┬───┬───┐
@@ -375,8 +416,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [L_FR] = LAYOUT_split_3x6_3(
         _______, _______, EU_CCED, _______, _______, _______,                                      _______, _______, EU_EACU, _______, _______, _______,
         _______, _______, _______, _______, _______, MAGICFR,                                      _______, _______, _______, _______, _______, _______,
-        EU_LDAQ, _______, _______, _______, _______, _______,                                      EU_AGRV, _______, _______, _______, _______, EU_RDAQ,
-                                            _______, _______, _______,                   U_HYPHEN, _______, EU_RSQU
+        EU_LDAQ, _______, _______, _______, _______, _______,                                      EU_AGRV, _______, _______, _______, EU_EGRV, EU_RDAQ,
+                                            _______, _______, _______,                    KC_UNDS, _______, EU_RSQU
     ),
         /*
       * ┌───┬───┬───┬───┬───┬───┐       ┌───┬───┬───┬───┬───┬───┐
@@ -395,7 +436,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [L_NUMSYM] = LAYOUT_split_3x6_3(
         KC_PSMS, KC_BSLS, KC_PIPE, KC_AMPR, KC_PERC, _______,                                      _______, _______, KC_SLSH, EU_TILD, EU_DGRK, EU_DEG,
         _______, KC_6,    KC_4,    MT_0,    KC_2,    EU_NDSH,                                      _______, KC_3,    MT_1,    KC_5,    KC_7,    _______,
-        KC_LBRC, EU_CIRC, EU_EURO, EU_SECT, KC_8,    KC_DLR,                                       KC_EQL,  KC_9,    EU_ELLP, EU_MDDT, EU_THRN, KC_RBRC,
+        KC_LBRC, EU_CIRC, SN_CURR, EU_SECT, KC_8,    KC_DLR,                                       _______, KC_9,    EU_ELLP, EU_MDDT, EU_THRN, KC_RBRC,
                                             _______, _______, _______,                    KC_UNDS, CK_NNBS, QK_LLCK
     ),
        /*
@@ -456,7 +497,7 @@ const uint16_t PROGMEM combo_kb_reboot[] = {EU_AT, KC_Z, COMBO_END};
 const uint16_t PROGMEM combo_sleep[] = {KC_COMM, KC_EQL, COMBO_END};
 const uint16_t PROGMEM combo_enter[] = {KC_A, KC_I, COMBO_END};
 const uint16_t PROGMEM combo_en[] = {MT_N, MT_E, COMBO_END};
-const uint16_t PROGMEM combo_se[] = {KC_S, MT_E, COMBO_END};
+const uint16_t PROGMEM combo_se[] = {MT_S, MT_E, COMBO_END};
 const uint16_t PROGMEM combo_fr[] = {KC_F, LT_R, COMBO_END};
 const uint16_t PROGMEM combo_base[] = {KC_P, KC_L, KC_D, COMBO_END};
 combo_t key_combos[] = {
