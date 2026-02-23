@@ -78,6 +78,7 @@ const uint32_t PROGMEM unicode_map[] = {
 enum custom_keycodes {
     CKC_OU = SAFE_RANGE,
     DI_TH,
+    CKC_TLD,
 };
 
 // Tap Dance declarations
@@ -119,14 +120,13 @@ tap_dance_action_t tap_dance_actions[] = {
 #define MT_1 LSFT_T(KC_1)
 #define MT_DGRV LSFT_T(EU_DGRV)
 
-#include "features/custom_shift_keys.h"
 
 bool is_shift_pressed(keyrecord_t *record) {
     const uint8_t saved_mods = get_mods();
 #ifndef NO_ACTION_ONESHOT
-    const uint8_t mods = saved_mods | get_weak_mods() | get_oneshot_mods();
+    const uint8_t mods = saved_mods | get_oneshot_mods();
 #else
-    const uint8_t mods = saved_mods | get_weak_mods();
+    const uint8_t mods = saved_mods;
 #endif  // NO_ACTION_ONESHOT
 #if CUSTOM_SHIFT_KEYS_LAYER_MASK != 0
     const uint8_t layer = read_source_layers_cache(record->event.key);
@@ -197,11 +197,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             q_timer = 0;
         }
     }
-    if (!process_custom_shift_keys(keycode, record)) {
-        return false;
-    }
 
     switch (keycode) {
+        case CKC_TLD:
+            // Send tilde directly. This is to avoid having ~/ become ~* (the shift in tilde bleeds into / otherwise).
+            if (record->event.pressed) {
+                tap_code16(EU_TILD);
+            }
+            return false;
         case LCTL_T(KC_LPRN):
             if (record->tap.count && record->event.pressed) {
                 tap_code16(KC_LPRN); // Send KC_DQUO on tap
@@ -325,8 +328,6 @@ uint16_t get_flow_tap_term(uint16_t keycode, keyrecord_t* record,
   {EU_ELLP, EU_MDDT}, // Shift … is ·
 
 };
-uint8_t NUM_CUSTOM_SHIFT_KEYS =
-    sizeof(custom_shift_keys) / sizeof(custom_shift_key_t);
 
 
 const char chordal_hold_layout[MATRIX_ROWS][MATRIX_COLS] PROGMEM =
@@ -434,7 +435,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       *                       └───┘   └───┘
       */
     [L_NUMSYM] = LAYOUT_split_3x6_3(
-        KC_PSMS, KC_BSLS, KC_PIPE, KC_AMPR, KC_PERC, _______,                                      _______, _______, KC_SLSH, EU_TILD, EU_DGRK, EU_DEG,
+        KC_PSMS, KC_BSLS, KC_PIPE, KC_AMPR, KC_PERC, _______,                                      _______, _______, KC_SLSH, CKC_TLD, EU_DGRK, EU_DEG,
         _______, KC_6,    KC_4,    MT_0,    KC_2,    EU_NDSH,                                      _______, KC_3,    MT_1,    KC_5,    KC_7,    _______,
         KC_LBRC, EU_CIRC, SN_CURR, EU_SECT, KC_8,    KC_DLR,                                       _______, KC_9,    EU_ELLP, EU_MDDT, EU_THRN, KC_RBRC,
                                             _______, _______, _______,                    KC_UNDS, CK_NNBS, QK_LLCK
@@ -489,7 +490,6 @@ const uint16_t PROGMEM combo_backspace[] = {KC_SLASH, KC_J, COMBO_END};
 const uint16_t PROGMEM combo_delete[] = {KC_X, KC_J, COMBO_END};
 const uint16_t PROGMEM combo_backspace_se[] = {SE_ADIA, KC_J, COMBO_END};
 const uint16_t PROGMEM combo_backspace_fr[] = {EU_EACU, KC_J, COMBO_END};
-const uint16_t PROGMEM combo_backspace_sym[] = {KC_SLSH, EU_TILD, COMBO_END};
 const uint16_t PROGMEM combo_prtscr[] = {EU_COLN, KC_DOT, COMBO_END};
 const uint16_t PROGMEM combo_capsword[] = {MT_LPRN, MT_RPRN, COMBO_END};
 const uint16_t PROGMEM combo_bootloader[] = {EU_DQUO, EU_COLN, COMBO_END};
@@ -508,7 +508,6 @@ combo_t key_combos[] = {
     COMBO(combo_delete, KC_DEL),
     COMBO(combo_backspace_se, KC_BSPC),
     COMBO(combo_backspace_fr, KC_BSPC),
-    COMBO(combo_backspace_sym, KC_BSPC),
     COMBO(combo_prtscr, KC_PRINT_SCREEN),
     COMBO(combo_capsword, CW_TOGG),
     COMBO(combo_bootloader, QK_BOOT),
