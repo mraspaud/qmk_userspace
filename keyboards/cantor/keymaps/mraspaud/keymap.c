@@ -5,6 +5,7 @@
 #define QU_TIMEOUT 1000
 static uint16_t q_timer = 0;
 static uint16_t last_keycode = 0;
+static uint16_t sym_layer_timer = 0;
 
 // Layers declarations
 enum {
@@ -304,6 +305,7 @@ uint16_t get_flow_tap_term(uint16_t keycode, keyrecord_t* record,
     return 0;  // Disable Flow Tap.
 }
 
+
  const custom_shift_key_t custom_shift_keys[] = {
   {KC_DOT , KC_EXLM}, // Shift . is !
   {KC_COMM, KC_QUES}, // Shift , is :
@@ -490,6 +492,7 @@ const uint16_t PROGMEM combo_backspace[] = {KC_SLASH, KC_J, COMBO_END};
 const uint16_t PROGMEM combo_delete[] = {KC_X, KC_J, COMBO_END};
 const uint16_t PROGMEM combo_backspace_se[] = {SE_ADIA, KC_J, COMBO_END};
 const uint16_t PROGMEM combo_backspace_fr[] = {EU_EACU, KC_J, COMBO_END};
+const uint16_t PROGMEM combo_backspace_sym[] = {KC_SLSH, CKC_TLD, COMBO_END};
 const uint16_t PROGMEM combo_prtscr[] = {EU_COLN, KC_DOT, COMBO_END};
 const uint16_t PROGMEM combo_capsword[] = {MT_LPRN, MT_RPRN, COMBO_END};
 const uint16_t PROGMEM combo_bootloader[] = {EU_DQUO, EU_COLN, COMBO_END};
@@ -508,6 +511,7 @@ combo_t key_combos[] = {
     COMBO(combo_delete, KC_DEL),
     COMBO(combo_backspace_se, KC_BSPC),
     COMBO(combo_backspace_fr, KC_BSPC),
+    COMBO(combo_backspace_sym, KC_BSPC),
     COMBO(combo_prtscr, KC_PRINT_SCREEN),
     COMBO(combo_capsword, CW_TOGG),
     COMBO(combo_bootloader, QK_BOOT),
@@ -519,3 +523,31 @@ combo_t key_combos[] = {
     COMBO(combo_en, TO(L_EN)),
     COMBO(combo_base, TO(L_BASE)),
 };
+
+// The backspace combo lands on the ~/ keys that I often type in rapid succession, leading to strange behaviour if the
+// combo is active. Since I usually type ~/ just after switching to the sym layer, we are here delaying the activation
+// of the combo by a half second.
+
+layer_state_t layer_state_set_user(layer_state_t state) {
+    // If the symbol layer is turned on, record the current time
+    if (get_highest_layer(state) == L_NUMSYM) {
+        sym_layer_timer = timer_read();
+    } else {
+        // Reset the timer when leaving the layer
+        sym_layer_timer = 0;
+    }
+    return state;
+}
+
+bool combo_should_trigger(uint16_t combo_index, combo_t *combo, uint16_t keycode, keyrecord_t *record) {
+    if (combo->keys == combo_backspace_sym) {
+        if (IS_LAYER_ON(L_NUMSYM)) {
+            // If the timer is active AND less than 500ms has passed, disable the combo
+            if (sym_layer_timer != 0 && timer_elapsed(sym_layer_timer) < 500) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
