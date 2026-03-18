@@ -109,8 +109,6 @@ tap_dance_action_t tap_dance_actions[] = {
 #define LT_SPC LT(L_NAV, KC_SPC)
 #define LT_R LT(L_NUMSYM, KC_R)
 #define MT_ESC LALT_T(KC_ESC)
-#define MT_LPRN LCTL_T(KC_LPRN)
-#define MT_RPRN RCTL_T(KC_RPRN)
 #define CK_NBSP RALT(KC_SPC)
 #define CK_NNBS S(RALT(KC_SPC))
 #define MT_E RSFT_T(KC_E)
@@ -206,18 +204,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 tap_code16(EU_TILD);
             }
             return false;
-        case LCTL_T(KC_LPRN):
-            if (record->tap.count && record->event.pressed) {
-                tap_code16(KC_LPRN); // Send KC_DQUO on tap
-                return false;        // Return false to ignore further processing of key
-            }
-            break;
-        case RCTL_T(KC_RPRN):
-            if (record->tap.count && record->event.pressed) {
-                tap_code16(KC_RPRN); // Send KC_DQUO on tap
-                return false;        // Return false to ignore further processing of key
-            }
-            break;
         case CKC_OU:
             if (record->event.pressed) {
                 if (is_shift_pressed(record)) {
@@ -314,8 +300,8 @@ uint16_t get_flow_tap_term(uint16_t keycode, keyrecord_t* record,
   {KC_UNDS, KC_MINS }, // Shift _ is -
   {KC_LBRC, KC_LCBR }, // Shift [ is {
   {KC_RBRC, KC_RCBR }, // Shift ] is }
-  {MT_LPRN, KC_LABK }, // Shift ( is <
-  {MT_RPRN, KC_RABK }, // Shift } is >
+  {KC_LPRN, KC_LABK }, // Shift ( is <
+  {KC_RPRN, KC_RABK }, // Shift } is >
   {KC_SLSH, EU_ASTR }, // Shift / is *
   {EU_QUOT, EU_RSQU }, // Shift ' is ’
   {KC_EQL, KC_PLUS}, // Shift = is +
@@ -358,7 +344,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       */
     [L_BASE] = LAYOUT_split_3x6_3(
         KC_Z,    KC_B,    KC_W,    KC_H,    KC_G,    EU_DQUO,                                      EU_COLN, KC_DOT,  KC_SLSH, KC_J,    KC_X,    EU_AT,
-        MT_LPRN, MT_S,    KC_C,    MT_N,    KC_T,    KC_K,                                         KC_COMM, KC_A,    MT_E,    KC_I,    MT_M,    MT_RPRN,
+        KC_LPRN, MT_S,    KC_C,    MT_N,    KC_T,    KC_K,                                         KC_COMM, KC_A,    MT_E,    KC_I,    MT_M,    KC_RPRN,
         KC_LBRC, KC_F,    KC_P,    KC_L,    KC_D,    KC_V,                                         KC_EQL,  KC_U,    KC_O,    KC_Y,    DI_TH,   KC_RBRC,
                                             KC_Q,   LT_R,  MT_ESC,                       KC_UNDS, LT_SPC,  EU_QUOT
     ),
@@ -458,7 +444,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       */
     [L_NAV] = LAYOUT_split_3x6_3(
         KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,                                        KC_BRID, KC_PGUP, KC_UP,   KC_PGDN, KC_BRIU, KC_VOLU,
-        _______, KC_LGUI, OS_LALT, OS_LSFT, OS_LCTL, _______,                                      KC_HOME, KC_LEFT, KC_DOWN, KC_RGHT, KC_END,  KC_VOLD,
+        _______, OS_LCTL, KC_LGUI, OS_LSFT, OS_LALT, _______,                                      KC_HOME, KC_LEFT, KC_DOWN, KC_RGHT, KC_END,  KC_VOLD,
         KC_F7,   KC_F9,   KC_F9,   KC_F10,  KC_F11,  KC_F12,                                       _______, KC_MPRV, KC_MPLY, KC_MNXT, KC_MSTP, KC_MUTE,
                                             _______, _______, _______,                    _______, _______, _______
     ),
@@ -494,7 +480,7 @@ const uint16_t PROGMEM combo_backspace_se[] = {SE_ADIA, KC_J, COMBO_END};
 const uint16_t PROGMEM combo_backspace_fr[] = {EU_EACU, KC_J, COMBO_END};
 const uint16_t PROGMEM combo_backspace_sym[] = {KC_SLSH, CKC_TLD, COMBO_END};
 const uint16_t PROGMEM combo_prtscr[] = {EU_COLN, KC_DOT, COMBO_END};
-const uint16_t PROGMEM combo_capsword[] = {MT_LPRN, MT_RPRN, COMBO_END};
+const uint16_t PROGMEM combo_capsword[] = {KC_LPRN, KC_RPRN, COMBO_END};
 const uint16_t PROGMEM combo_bootloader[] = {EU_DQUO, EU_COLN, COMBO_END};
 const uint16_t PROGMEM combo_kb_reboot[] = {EU_AT, KC_Z, COMBO_END};
 const uint16_t PROGMEM combo_sleep[] = {KC_COMM, KC_EQL, COMBO_END};
