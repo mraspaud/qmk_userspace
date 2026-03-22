@@ -40,6 +40,7 @@ enum unicode_names {
     RANGL,
     SEQL,
     GEQL,
+    ITBG,
 };
 
 const uint32_t PROGMEM unicode_map[] = {
@@ -61,6 +62,8 @@ const uint32_t PROGMEM unicode_map[] = {
     [RANGL] = 0x27E9, // ⟩
     [SEQL] = 0x2264, // ≤
     [GEQL] = 0x2265, // ≥
+    [ITBG] = 0x203D, // ‽
+    [MIDPOINT] = 0x00B7, // ·
 };
 
 #define U_ACRC UP(ACRC, AACRC)
@@ -73,6 +76,7 @@ const uint32_t PROGMEM unicode_map[] = {
 #define U_MINUS UP(MINUS, MDASH)
 #define U_LANGL UP(LANGL, SEQL)
 #define U_RANGL UP(RANGL, GEQL)
+#define U_BANGD UP(ITBG, MIDPOINT)
 #define KC_PSMS S(EU_DGRK)
 #define MAGICFR OSL(L_FRSYM)
 
@@ -414,7 +418,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       * ├───┼───┼───┼───┼───┼───┤       ├───┼───┼───┼───┼───┼───┤
       * │ ( │ 6 │ 4 │ 0 │ 2 │ – │       │ , │ 3 │ 1 │ 5 │ 7 │ ) │
       * ├───┼───┼───┼───┼───┼───┤       ├───┼───┼───┼───┼───┼───┤
-      * │ [ │ ^ │ € │ § │ 8 │ $ │       │ = │ 9 │ … │ · │ ? │ ] │
+      * │ [ │ ^ │ € │ § │ 8 │ $ │       │ = │ 9 │ … │ · │ þ │ ] │
       * └───┴───┴───┴───┴───┴───┘       └───┴───┴───┴───┴───┴───┘
       *               ┌───┐                   ┌───┐
       *               │Qu ├───┐           ┌───┤Lck│
@@ -425,7 +429,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [L_NUMSYM] = LAYOUT_split_3x6_3(
         KC_PSMS, KC_BSLS, KC_PIPE, KC_AMPR, KC_PERC, _______,                                      _______, _______, KC_SLSH, CKC_TLD, EU_DGRK, EU_DEG,
         _______, KC_6,    KC_4,    MT_0,    KC_2,    EU_NDSH,                                      _______, KC_3,    MT_1,    KC_5,    KC_7,    _______,
-        KC_LBRC, EU_CIRC, SN_CURR, EU_SECT, KC_8,    KC_DLR,                                       _______, KC_9,    EU_ELLP, EU_MDDT, EU_THRN, KC_RBRC,
+        KC_LBRC, EU_CIRC, SN_CURR, EU_SECT, KC_8,    KC_DLR,                                       _______, KC_9,    EU_ELLP, U_BANGD, EU_THRN, KC_RBRC,
                                             _______, _______, _______,                    KC_UNDS, CK_NNBS, QK_LLCK
     ),
        /*
