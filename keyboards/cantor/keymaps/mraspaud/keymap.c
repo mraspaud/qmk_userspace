@@ -475,9 +475,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 };
 
 
-const uint16_t PROGMEM combo_tab[] = {KC_W, KC_H, COMBO_END};
-const uint16_t PROGMEM combo_tab_fr[] = {EU_CCED, KC_H, COMBO_END};
-const uint16_t PROGMEM combo_btab[] = {KC_W, KC_B, COMBO_END};
+const uint16_t PROGMEM combo_tab[] = {KC_C, KC_T, COMBO_END};
 const uint16_t PROGMEM combo_backspace[] = {KC_SLASH, KC_J, COMBO_END};
 const uint16_t PROGMEM combo_delete[] = {KC_X, KC_J, COMBO_END};
 const uint16_t PROGMEM combo_backspace_se[] = {SE_ADIA, KC_J, COMBO_END};
@@ -495,8 +493,6 @@ const uint16_t PROGMEM combo_fr[] = {KC_F, LT_R, COMBO_END};
 const uint16_t PROGMEM combo_base[] = {KC_P, KC_L, KC_D, COMBO_END};
 combo_t key_combos[] = {
     COMBO(combo_tab, KC_TAB),
-    COMBO(combo_tab_fr, KC_TAB),
-    COMBO(combo_btab, RSFT(KC_TAB)),
     COMBO(combo_backspace, KC_BSPC),
     COMBO(combo_delete, KC_DEL),
     COMBO(combo_backspace_se, KC_BSPC),
