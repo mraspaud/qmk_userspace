@@ -9,3 +9,7 @@
 #define MAX_DEFERRED_EXECUTORS 10
 #define USB_SUSPEND_WAKEUP_DELAY 200
 #define NO_USB_STARTUP_CHECK
+
+// Enables the combo_should_trigger() hook below (used to guard the layer
+// combos against misfires while typing, and to delay the sym backspace combo).
+#define COMBO_SHOULD_TRIGGER

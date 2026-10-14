@@ -4,7 +4,10 @@
 #include "keymap_extras/keymap_eurkey.h"
 #define QU_TIMEOUT 1000
 static uint16_t q_timer = 0;
-static uint16_t last_keycode = 0;
+// Set after typing ':' until the end of the word, so that vim commands like :qa
+// or :wqa don't get the automatic 'u' after 'q'.
+static bool in_colon_cmd = false;
+static uint16_t last_keycode_time = 0;
 static uint16_t sym_layer_timer = 0;
 
 // Layers declarations
@@ -235,7 +238,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             break;
         case KC_Q:
             if (record->event.pressed) {
-                if (last_keycode != EU_COLN) {
+                if (!in_colon_cmd) {
                     q_timer = timer_read();
                 }
             }
@@ -272,7 +275,28 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             break;
     }
     if (record->event.pressed) {
-        last_keycode = keycode;
+        switch (keycode) {
+            case EU_COLN:
+                in_colon_cmd = true;
+                break;
+            case LT_SPC:
+            case KC_SPC:
+            case KC_ENT:
+            case MT_ESC:
+            case KC_ESC:
+                in_colon_cmd = false;
+                break;
+        }
+        // Correcting with backspace is not typing: it is usually what happens
+        // just before toggling a layer, so it must not delay the layer combos.
+        switch (keycode) {
+            case KC_BSPC:
+            case KC_DEL:
+                break;
+            default:
+                last_keycode_time = record->event.time;
+                break;
+        }
     }
     // your code here
     return true;
@@ -491,6 +515,25 @@ const uint16_t PROGMEM combo_en[] = {MT_N, MT_E, COMBO_END};
 const uint16_t PROGMEM combo_se[] = {MT_S, MT_E, COMBO_END};
 const uint16_t PROGMEM combo_fr[] = {KC_F, LT_R, COMBO_END};
 const uint16_t PROGMEM combo_base[] = {KC_P, KC_L, KC_D, COMBO_END};
+enum combo_index {
+    CMB_TAB,
+    CMB_BACKSPACE,
+    CMB_DELETE,
+    CMB_BACKSPACE_SE,
+    CMB_BACKSPACE_FR,
+    CMB_BACKSPACE_SYM,
+    CMB_PRTSCR,
+    CMB_CAPSWORD,
+    CMB_BOOTLOADER,
+    CMB_KB_REBOOT,
+    CMB_SLEEP,
+    CMB_ENTER,
+    CMB_FR,
+    CMB_SE,
+    CMB_EN,
+    CMB_BASE,
+};
+
 combo_t key_combos[] = {
     COMBO(combo_tab, KC_TAB),
     COMBO(combo_backspace, KC_BSPC),
@@ -525,7 +568,24 @@ layer_state_t layer_state_set_user(layer_state_t state) {
     return state;
 }
 
+// A layer is never toggled in the middle of typing, so the layer combos only
+// fire when the keyboard has been idle for a moment. Rolls such as "se" or "en"
+// in the middle of a word are thus never mistaken for a layer switch.
+#define LAYER_COMBO_IDLE_TERM 250
+
 bool combo_should_trigger(uint16_t combo_index, combo_t *combo, uint16_t keycode, keyrecord_t *record) {
+    switch (combo_index) {
+        case CMB_FR:
+        case CMB_SE:
+        case CMB_EN:
+        case CMB_BASE:
+            if (last_keycode_time != 0 && TIMER_DIFF_16(record->event.time, last_keycode_time) < LAYER_COMBO_IDLE_TERM) {
+                return false;
+            }
+            break;
+        default:
+            break;
+    }
     if (combo->keys == combo_backspace_sym) {
         if (IS_LAYER_ON(L_NUMSYM)) {
             // If the timer is active AND less than 500ms has passed, disable the combo
