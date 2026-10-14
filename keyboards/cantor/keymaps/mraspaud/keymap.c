@@ -23,6 +23,99 @@ enum {
     L_FN,
 };
 
+#define HSV_SE_BLUE    143, 255, 167   // #006AA7
+#define HSV_SE_YELLOW   34, 255, 255   // #FFCD00
+
+#define HSV_FR_BLUE    170, 255, 145   // #000091
+#define HSV_FR_RED     252, 255, 225   // #E1000F
+
+#define HSV_IE_GREEN   98, 255, 169   // #169B62
+#define HSV_IE_ORANGE  20, 255, 255   // #FF883E
+
+#define HSV_KANAGAWA_SYMBOL  186,  79, 184   // oniViolet  #957FB8
+#define HSV_KANAGAWA_NAV     140,  95, 202   // springBlue #7FB4CA
+#define HSV_KANAGAWA_CODE 119, 70, 120   // waveAqua2, deliberately dim
+
+#define TOP_LED_BRIGHTNESS 80
+
+#define GLOW_INTERVAL_MS 20
+
+// 94 steps every 20 ms => one complete cycle in ~14 seconds.
+#define GLOW_PHASE_STEP 65
+
+// Bottom of the wave: 160/255 = 63% brightness.
+#define GLOW_MIN_SCALE (160u * 257u)
+
+// Smooth cosine-like cycle, 0..65535.
+static const uint16_t glow_curve[16] = {
+        0,  2495,  9598, 20228,
+    32768, 45307, 55938, 63041,
+    65535, 63041, 55938, 45307,
+    32768, 20228,  9598,  2495
+};
+
+static uint16_t glow_shape(uint16_t phase) {
+    uint8_t index = phase >> 12;
+    uint16_t fraction = phase & 0x0FFF;
+
+    int32_t a = glow_curve[index];
+    int32_t b = glow_curve[(index + 1) & 0x0F];
+
+    return a + (((b - a) * fraction) >> 12);
+}
+
+static uint8_t glow_value(uint8_t base_v, uint16_t phase, bool coder) {
+    uint16_t shape = glow_shape(phase);
+
+    // Coder: 75–100% of its already-dim colour.
+    // Languages: 45–100%, so the travelling glow is obvious.
+    uint16_t min_scale = coder ? 49152u : 29491u;
+
+    uint32_t scale =
+        min_scale +
+        (((uint32_t)(65535u - min_scale) * shape) >> 16);
+
+    return ((uint32_t)base_v * scale) >> 16;
+}
+
+
+static hsv_t persistent_colour(bool left) {
+    if (layer_state_cmp(layer_state, L_SE)) {
+        return left ? (hsv_t){HSV_SE_BLUE}
+                    : (hsv_t){HSV_SE_YELLOW};
+    }
+
+    if (layer_state_cmp(layer_state, L_FR)) {
+        return left ? (hsv_t){HSV_FR_BLUE}
+                    : (hsv_t){HSV_FR_RED};
+    }
+
+    if (layer_state_cmp(layer_state, L_EN)) {
+        return left ? (hsv_t){HSV_IE_GREEN}
+                    : (hsv_t){HSV_IE_ORANGE};
+    }
+
+    // Coder/base layer.
+    return (hsv_t){HSV_KANAGAWA_CODE};
+}
+
+static hsv_t transient_colour(void) {
+    if (layer_state_cmp(layer_state, L_NUMSYM)) {
+        return (hsv_t){
+            186, 79, TOP_LED_BRIGHTNESS   // oniViolet #957FB8
+        };
+    }
+
+    if (layer_state_cmp(layer_state, L_NAV)) {
+        return (hsv_t){
+            141, 81, TOP_LED_BRIGHTNESS
+        };
+    }
+
+    return (hsv_t){0, 0, 0};
+}
+
+
 enum unicode_names {
     ACRC,
     AACRC,
@@ -319,6 +412,12 @@ uint16_t get_flow_tap_term(uint16_t keycode, keyrecord_t* record,
     return 0;  // Disable Flow Tap.
 }
 
+void keyboard_post_init_user(void) {
+    rgblight_enable_noeeprom();
+    rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_LIGHT);
+    rgblight_setrgb(0, 0, 0);
+}
+
 
  const custom_shift_key_t custom_shift_keys[] = {
   {KC_DOT , KC_EXLM}, // Shift . is !
@@ -566,6 +665,65 @@ layer_state_t layer_state_set_user(layer_state_t state) {
         sym_layer_timer = 0;
     }
     return state;
+}
+
+void housekeeping_task_user(void) {
+    static uint32_t glow_timer = 0;
+    static uint16_t phase = 0;
+    static layer_state_t previous_layer_state = ~(layer_state_t)0;
+
+    bool layer_changed = (layer_state != previous_layer_state);
+    bool glow_tick = timer_elapsed32(glow_timer) >= GLOW_INTERVAL_MS;
+
+    if (!layer_changed && !glow_tick) {
+        return;
+    }
+
+    previous_layer_state = layer_state;
+
+    if (glow_tick) {
+        glow_timer = timer_read32();
+        phase += GLOW_PHASE_STEP;
+    }
+
+    bool left = is_keyboard_left();
+    uint8_t start = left ? 0 : 7;
+
+    hsv_t base = persistent_colour(left);
+
+    for (uint8_t i = 0; i < 6; i++) {
+        // Mirror the animation across the split.
+        uint8_t position = left ? i : (5 - i);
+
+        // 45 degrees between neighbouring LEDs.
+        uint16_t led_phase =
+            phase + (uint16_t)position * 8192u;
+
+        bool coder =
+            !layer_state_cmp(layer_state, L_EN) &&
+            !layer_state_cmp(layer_state, L_SE) &&
+            !layer_state_cmp(layer_state, L_FR);
+
+        uint8_t value =
+            glow_value(base.v, led_phase, coder);
+
+        rgblight_sethsv_at(
+            base.h,
+            base.s,
+            value,
+            start + i
+        );
+    }
+
+    // Top LED remains steady: no animation or dithering.
+    hsv_t top = transient_colour();
+
+    rgblight_sethsv_at(
+        top.h,
+        top.s,
+        top.v,
+        start + 6
+    );
 }
 
 // A layer is never toggled in the middle of typing, so the layer combos only
