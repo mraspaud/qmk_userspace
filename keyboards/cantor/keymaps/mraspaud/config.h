@@ -1,3 +1,8 @@
+#pragma once
+
+#undef SPLIT_HAND_PIN
+#define EE_HANDS
+
 #define TAPPING_TERM 250
 #define PERMISSIVE_HOLD
 #define FLOW_TAP_TERM 150
