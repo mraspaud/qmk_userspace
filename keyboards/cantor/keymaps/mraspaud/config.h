@@ -5,10 +5,8 @@
 #define EE_HANDS
 
 // Lighting
-// #define RGBLIGHT_LAYERS
-// #define RGBLIGHT_LAYERS_OVERRIDE_RGB_OFF
-// #define RGBLIGHT_DEFAULT_ON false
 #define SPLIT_LAYER_STATE_ENABLE
+#define SPLIT_TRANSACTION_IDS_USER SHORE_SYNC
 #undef RGBLIGHT_LED_COUNT
 #define RGBLIGHT_LED_COUNT 14
 #undef RGBLED_SPLIT
@@ -29,3 +27,8 @@
 // Enables the combo_should_trigger() hook below (used to guard the layer
 // combos against misfires while typing, and to delay the sym backspace combo).
 #define COMBO_SHOULD_TRIGGER
+
+// cold boot stuff.
+// #define SPLIT_USB_TIMEOUT 2000
+// #define SPLIT_WATCHDOG_ENABLE
+// #define SPLIT_WATCHDOG_TIMEOUT 3500
