@@ -4,8 +4,9 @@
 #include "keymap_extras/keymap_eurkey.h"
 #define QU_TIMEOUT 1000
 static uint16_t q_timer = 0;
-// Set after typing ':' until the end of the word, so that vim commands like :qa
-// or :wqa don't get the automatic 'u' after 'q'.
+// Set after typing ':' or '-' until the end of the word, so that vim commands
+// like :qa or :wqa, and command-line options like rpm -qa, don't get the
+// automatic 'u' after 'q'.
 static bool in_colon_cmd = false;
 static uint16_t last_keycode_time = 0;
 static uint16_t sym_layer_timer = 0;
@@ -90,6 +91,7 @@ const uint32_t PROGMEM unicode_map[] = {
 enum custom_keycodes {
     CKC_OU = SAFE_RANGE,
     DI_TH,
+    DI_QU,
     CKC_TLD,
 };
 
@@ -184,6 +186,7 @@ bool caps_word_press_user(uint16_t keycode) {
         case KC_A ... KC_Z:
         case KC_MINS:
         case DI_TH:
+        case DI_QU:
             add_weak_mods(MOD_BIT(KC_LSFT));  // Apply shift to next key.
             return true;
 
@@ -197,6 +200,16 @@ bool caps_word_press_user(uint16_t keycode) {
         default:
             return false;  // Deactivate Caps Word.
     }
+}
+
+bool pre_process_record_user(uint16_t keycode, keyrecord_t *record) {
+    // Shift + _ is turned into '-' by Custom Shift Keys, which runs before
+    // process_record_user and consumes the event, so '-' is caught here.
+    if (record->event.pressed && keycode == KC_UNDS &&
+        (is_shift_pressed(record) || (get_weak_mods() & MOD_MASK_SHIFT))) {
+        in_colon_cmd = true;
+    }
+    return true;
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
@@ -240,9 +253,25 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 // key release
             }
             break;
+        case DI_QU:
+            // Explicit "qu" for L_EN, instead of the deferred u of KC_Q.
+            if (record->event.pressed) {
+                if (is_caps_word_on()) {
+                    SEND_STRING("QU");
+                } else if (is_shift_pressed(record)) {
+                    send_unshifted_string("Qu");
+                } else {
+                    SEND_STRING("qu");
+                }
+            } else {
+                // key release
+            }
+            break;
         case KC_Q:
             if (record->event.pressed) {
-                if (!in_colon_cmd) {
+                // L_EN has an explicit qu key (DI_QU), so its q stays plain
+                // (Iraq, FAQ, Qatar).
+                if (!in_colon_cmd && !IS_LAYER_ON(L_EN)) {
                     q_timer = timer_read();
                 }
             }
@@ -397,12 +426,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       *               └───┤ R ├───┐   ┌───┤   ├───┘
       *                   └───┤Esc│   │ - ├───┘
       *                       └───┘   └───┘
+      * Qu here is DI_QU: an explicit "qu" (no deferred u). Plain q is on the
+      * L_NAV left thumb (hold Space + Qu), and never gets a deferred u on L_EN.
       */
     [L_EN] = LAYOUT_split_3x6_3(
         _______, _______, _______, _______, _______, _______,                                      _______, _______, _______, _______, _______,  _______,
         _______, _______, _______, _______, _______, _______,                                      _______, _______, _______, _______, _______,  _______,
         EU_LSQU, _______, _______, _______, _______, _______,                                      _______, _______, _______, _______, _______,  EU_RSQU,
-                                            _______, _______, _______,                    KC_UNDS, _______, EU_RSQU
+                                            DI_QU,   _______, _______,                    KC_UNDS, _______, EU_RSQU
     ),
       /*
       * ┌───┬───┬───┬───┬───┬───┐       ┌───┬───┬───┬───┬───┬───┐
@@ -482,7 +513,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,                                        KC_BRID, KC_PGUP, KC_UP,   KC_PGDN, KC_BRIU, KC_VOLU,
         _______, OS_LCTL, KC_LGUI, OS_LSFT, OS_LALT, _______,                                      KC_HOME, KC_LEFT, KC_DOWN, KC_RGHT, KC_END,  KC_VOLD,
         KC_F7,   KC_F9,   KC_F9,   KC_F10,  KC_F11,  KC_F12,                                       _______, KC_MPRV, KC_MPLY, KC_MNXT, KC_MSTP, KC_MUTE,
-                                            _______, _______, _______,                    _______, _______, _______
+                                            KC_Q,    _______, _______,                    _______, _______, _______
     ),
       /*
       * ┌───┬───┬───┬───┬───┬───┐       ┌───┬───┬───┬───┬───┬───┐
