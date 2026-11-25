@@ -4,8 +4,9 @@
 #include "keymap_extras/keymap_eurkey.h"
 #define QU_TIMEOUT 1000
 static uint16_t q_timer = 0;
-// Set after typing ':' until the end of the word, so that vim commands like :qa
-// or :wqa don't get the automatic 'u' after 'q'.
+// Set after typing ':' or '-' until the end of the word, so that vim commands
+// like :qa or :wqa, and command-line options like rpm -qa, don't get the
+// automatic 'u' after 'q'.
 static bool in_colon_cmd = false;
 static uint16_t last_keycode_time = 0;
 static uint16_t sym_layer_timer = 0;
@@ -199,6 +200,16 @@ bool caps_word_press_user(uint16_t keycode) {
         default:
             return false;  // Deactivate Caps Word.
     }
+}
+
+bool pre_process_record_user(uint16_t keycode, keyrecord_t *record) {
+    // Shift + _ is turned into '-' by Custom Shift Keys, which runs before
+    // process_record_user and consumes the event, so '-' is caught here.
+    if (record->event.pressed && keycode == KC_UNDS &&
+        (is_shift_pressed(record) || (get_weak_mods() & MOD_MASK_SHIFT))) {
+        in_colon_cmd = true;
+    }
+    return true;
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
