@@ -28,7 +28,7 @@
 // combos against misfires while typing, and to delay the sym backspace combo).
 #define COMBO_SHOULD_TRIGGER
 
-// cold boot stuff.
-// #define SPLIT_USB_TIMEOUT 2000
-// #define SPLIT_WATCHDOG_ENABLE
-// #define SPLIT_WATCHDOG_TIMEOUT 3500
+// Cold boot: master/slave is chosen by split_role.h (included in keymap.c),
+// which waits for the USB host as long as needed, and starts the secondary as
+// soon as the master talks to it. SPLIT_USB_TIMEOUT is therefore unused, and
+// SPLIT_WATCHDOG_ENABLE is not needed (it would only add reboots).

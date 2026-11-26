@@ -155,3 +155,24 @@ gcc -std=gnu11 -Wall -Wextra -Werror -Wno-unused-function \
 It checks unconfigured-USB darkness, arrival, nonzero normal lighting,
 frame throttling, top-layer response and going dark on suspend. It does NOT
 simulate serial transport timings or verify the real QMK fork.
+
+## Cold boot: split master election (`split_role.h`)
+
+QMK's `SPLIT_USB_DETECT` gives each half `SPLIT_USB_TIMEOUT` to see an
+enumerated USB host. On a slow cold boot the USB half misses it, both halves
+become secondary, and the keyboard is dead until replugged. A long timeout
+fixes that but makes the secondary always wait the whole timeout.
+
+`split_role.h` replaces QMK's weak `is_keyboard_master_impl()`. Each half waits
+(without timeout by default) until either its USB is enumerated (it is master)
+or it sees the master's serial traffic on the split line (it is secondary, and
+starts within a few ms of the master). No reboots, no extra protocol.
+`SPLIT_USB_TIMEOUT` and `SPLIT_WATCHDOG_ENABLE` are not needed with it.
+
+Host test of the election logic:
+
+```sh
+gcc -std=gnu11 -Wall -Wextra -Werror -I. -Itests/stubs \
+  tests/split_role_test.c -o /tmp/split_role_test
+/tmp/split_role_test
+```

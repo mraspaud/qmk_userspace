@@ -28,6 +28,10 @@ enum {
 // a spatial field spanning both halves. See shore_config.h for tuning.
 #include "shore_lighting.h"
 
+// Master election that waits for the host on a slow cold boot without making
+// the secondary half wait. Replaces QMK's SPLIT_USB_TIMEOUT detection.
+#include "split_role.h"
+
 enum unicode_names {
     ACRC,
     AACRC,
