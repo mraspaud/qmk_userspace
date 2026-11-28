@@ -22,7 +22,10 @@
 #define UNICODE_TYPE_DELAY 10
 #define MAX_DEFERRED_EXECUTORS 10
 #define USB_SUSPEND_WAKEUP_DELAY 200
-#define NO_USB_STARTUP_CHECK
+// Not NO_USB_STARTUP_CHECK: on ChibiOS it compiles out the USB suspend loop,
+// which is the only place that sends remote wakeup, so the keyboard could not
+// wake the computer. The secondary half is unaffected: its USB is stopped, so
+// it never enters that loop.
 
 // Enables the combo_should_trigger() hook below (used to guard the layer
 // combos against misfires while typing, and to delay the sym backspace combo).
