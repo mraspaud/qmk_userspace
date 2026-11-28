@@ -166,8 +166,14 @@ fixes that but makes the secondary always wait the whole timeout.
 `split_role.h` replaces QMK's weak `is_keyboard_master_impl()`. Each half waits
 (without timeout by default) until either its USB is enumerated (it is master)
 or it sees the master's serial traffic on the split line (it is secondary, and
-starts within a few ms of the master). No reboots, no extra protocol.
-`SPLIT_USB_TIMEOUT` and `SPLIT_WATCHDOG_ENABLE` are not needed with it.
+starts about 50 ms after the master, or within ~1.5 s if the master was
+already running). No extra protocol. `SPLIT_USB_TIMEOUT` is not used.
+
+Only master attempts count: an edge counts after 5 ms of quiet (contact bounce
+and glitch bursts count once), and the count restarts after 700 ms without an
+edge, so isolated glitches never add up. `SPLIT_WATCHDOG_ENABLE` is kept as a
+safety net: it reboots a half that elected itself secondary but never hears
+from a master. It never fires on a correct secondary.
 
 Host test of the election logic:
 

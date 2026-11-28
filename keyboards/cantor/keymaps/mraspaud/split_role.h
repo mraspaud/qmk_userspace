@@ -14,11 +14,18 @@
 // timeout, for one of two things:
 //   - its own USB reaching USB_ACTIVE (enumerated by the host): it is master;
 //   - the master's split-serial traffic on the split line: it is secondary.
-// The master starts its serial transactions right after deciding, and each
-// transaction attempt starts with a byte, so the line (idle high, pulled up on
-// both sides) goes low. The secondary sees that within a few ms and starts.
-// The secondary never transmits on its own, so the USB half never mistakes it
-// for a master.
+// The master starts its serial transactions right after deciding. While the
+// other half does not answer, each attempt is one handshake byte (transaction
+// id 0, so a single falling edge on the idle-high line), every ~20 ms at first
+// and every 500 ms after 10 failures. The secondary counts those attempts and
+// starts. It never transmits on its own, so the USB half never mistakes it for
+// a master.
+//
+// To reject noise, an edge only counts after SPLIT_ROLE_MIN_GAP_MS of quiet, so
+// a burst of any length (contact bounce, glitches) counts once, and the count restarts after SPLIT_ROLE_MAX_GAP_MS
+// without an edge (isolated glitches seconds apart never add up). If a half
+// still elects itself secondary wrongly, SPLIT_WATCHDOG_ENABLE reboots it when
+// no master talks to it.
 #pragma once
 
 #include "gpio.h"
@@ -42,12 +49,19 @@
 // Ignore the line while both halves come out of reset and set their pull-ups
 // (RP2040 pads default to pull-down), so that this does not count as traffic.
 #ifndef SPLIT_ROLE_SETTLE_MS
-#    define SPLIT_ROLE_SETTLE_MS 50
+#    define SPLIT_ROLE_SETTLE_MS 200
 #endif
-// Falling edges needed to decide that the other half is master. Its first
-// attempts come every few ms, then every 500 ms once it counts us as absent.
+// Master attempts (spaced falling edges) needed to decide it is there.
 #ifndef SPLIT_ROLE_MIN_EDGES
 #    define SPLIT_ROLE_MIN_EDGES 3
+#endif
+// Quiet time before an edge counts again. Master attempts are >= ~20 ms apart.
+#ifndef SPLIT_ROLE_MIN_GAP_MS
+#    define SPLIT_ROLE_MIN_GAP_MS 5
+#endif
+// A longer pause restarts the count. Master attempts are <= 500 ms apart.
+#ifndef SPLIT_ROLE_MAX_GAP_MS
+#    define SPLIT_ROLE_MAX_GAP_MS 700
 #endif
 // 0 waits forever, which is what a slow host needs. If set, a half that has
 // seen neither USB nor a master by then becomes secondary, like stock QMK.
@@ -61,6 +75,7 @@ bool is_keyboard_master_impl(void) {
     bool settled = false;
     bool last_level = true;
     uint8_t edges = 0;
+    uint32_t last_fall = 0;
 
     while (true) {
         if (usb_connected_state()) {
@@ -74,15 +89,21 @@ bool is_keyboard_master_impl(void) {
         }
         // Sample the pin many times per timer/USB check: a start bit is only
         // ~2 us at the default 460800 baud.
+        bool fell = false;
         for (uint8_t i = 0; i < 64; i++) {
             const bool level = gpio_read_pin(SPLIT_ROLE_PIN);
-            if (last_level && !level) {
-                edges++;
-            }
+            fell |= last_level && !level;
             last_level = level;
         }
-        if (edges >= SPLIT_ROLE_MIN_EDGES) {
-            break;
+        if (edges > 0 && elapsed - last_fall > SPLIT_ROLE_MAX_GAP_MS) {
+            edges = 0;
+        }
+        if (fell) {
+            const bool counts = edges == 0 || elapsed - last_fall >= SPLIT_ROLE_MIN_GAP_MS;
+            last_fall = elapsed;
+            if (counts && ++edges >= SPLIT_ROLE_MIN_EDGES) {
+                break;
+            }
         }
 #if SPLIT_ROLE_TIMEOUT_MS > 0
         if (elapsed >= SPLIT_ROLE_TIMEOUT_MS) {

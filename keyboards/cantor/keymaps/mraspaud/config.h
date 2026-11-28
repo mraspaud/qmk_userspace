@@ -33,5 +33,9 @@
 
 // Cold boot: master/slave is chosen by split_role.h (included in keymap.c),
 // which waits for the USB host as long as needed, and starts the secondary as
-// soon as the master talks to it. SPLIT_USB_TIMEOUT is therefore unused, and
-// SPLIT_WATCHDOG_ENABLE is not needed (it would only add reboots).
+// soon as the master talks to it. SPLIT_USB_TIMEOUT is therefore unused.
+// The watchdog is only a safety net: it reboots a half that elected itself
+// secondary but never hears from a master (e.g. noise taken for traffic).
+// A correct secondary is pinged by the master within ~0.5 s, after which the
+// watchdog never fires, not even while the computer sleeps.
+#define SPLIT_WATCHDOG_ENABLE
